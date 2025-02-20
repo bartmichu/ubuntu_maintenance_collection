@@ -1,4 +1,4 @@
-- name: Ubuntu - Upgrade all packages and handle reboots
+- name: Ubuntu - Install all upgrades
   hosts: all
   gather_facts: true
 

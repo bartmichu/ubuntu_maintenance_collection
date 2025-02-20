@@ -1,4 +1,4 @@
-- name: Ubuntu - Install security upgrades and handle reboots
+- name: Ubuntu - Install security upgrades
   hosts: all
   gather_facts: true
 

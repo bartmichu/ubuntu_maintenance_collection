@@ -16,7 +16,3 @@ This playbook does not use any input variables.
 ## License
 
 This playbook is licensed under [MIT License](https://opensource.org/licenses/MIT).
-
-## Author
-
-Michał Bartkowiak

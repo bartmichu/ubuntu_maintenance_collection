@@ -1,10 +1,10 @@
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 1.0.2
+version: 1.0.3
 description: A collection of Ubuntu maintenance playbooks and roles
 tags: ['ubuntu', 'maintenance', 'update', 'upgrade', 'apt', 'needrestart', 'reboot', 'restart', 'security']
 
-repository: git@github.com:bartmichu/ubuntu_maintenance_collection.git
+repository: https://github.com/bartmichu/ubuntu_maintenance_collection.git
 documentation: https://github.com/bartmichu/ubuntu_maintenance_collection
 homepage: https://github.com/bartmichu/ubuntu_maintenance_collection
 issues: https://github.com/bartmichu/ubuntu_maintenance_collection/issues

@@ -1,8 +1,6 @@
-# check_state playbook
+# upgrade_security playbook
 
-This playbook checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. It leverages several roles to perform these checks and provides a summary of the findings.
-
-This playbook is designed to be a check only. It does not perform any actual updates or reboots. Separate playbooks should be used for those actions.
+This playbook installs available security updates on Ubuntu systems. It leverages several roles to perform the update process, including checking for required reboots and service restarts.
 
 Define `ubuntu_reboot_allowed` and `ubuntu_services_reboot` appropriately before running the playbook. This is typically done at the playbook level, command line, or in an inventory file.
 
@@ -14,8 +12,9 @@ Define `ubuntu_reboot_allowed` and `ubuntu_services_reboot` appropriately before
   - `packages_update_cache`
   - `packages_needrestart`
   - `packages_upgrade_check`
-  - `services_restart_check`
+  - `packages_upgrade_security`
   - `system_reboot_check`
+  - `services_restart_check`
 
 ## Variables
 

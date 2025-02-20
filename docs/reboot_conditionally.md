@@ -26,7 +26,3 @@ Define `ubuntu_reboot_allowed` and `ubuntu_services_reboot` appropriately before
 ## License
 
 This playbook is licensed under [MIT License](https://opensource.org/licenses/MIT).
-
-## Author
-
-Michał Bartkowiak

@@ -23,7 +23,3 @@ Define `ubuntu_services_restart_allowed` appropriately before running the playbo
 ## License
 
 This playbook is licensed under [MIT License](https://opensource.org/licenses/MIT).
-
-## Author
-
-Michał Bartkowiak
