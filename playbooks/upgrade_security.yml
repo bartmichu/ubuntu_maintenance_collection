@@ -1,0 +1,57 @@
+- name: Ubuntu - Install security upgrades and handle reboots
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Gather the package facts
+      become: false
+      ansible.builtin.package_facts:
+        manager: apt
+
+    - name: Update package repositories cache
+      ansible.builtin.include_role:
+        name: packages_update_cache
+
+    - name: Install needrestart releated packages
+      when: "'needrestart' not in ansible_facts.packages"
+      ansible.builtin.include_role:
+        name: packages_needrestart
+
+    - name: Check for available package upgrades
+      ansible.builtin.include_role:
+        name: packages_upgrade_check
+
+    - name: List upgradeable packages
+      when: ((ubuntu_upgradeable_packages | default([])) | length > 0) or ((ubuntu_upgradeable_packages_security | default([])) | length > 0)
+      become: false
+      ansible.builtin.debug:
+        msg:
+          "{% if ((ubuntu_upgradeable_packages_security | default([])) | length > 0) %}PENDING SECURITY UPGRADES: {{ (ubuntu_upgradeable_packages_security | default([])) | length }} ({{ (ubuntu_upgradeable_packages_security | default([])) | join(', ') }}). {% endif %}\
+          {% if ((ubuntu_upgradeable_packages | default([])) | length > 0) %}PENDING UPGRADES: {{ (ubuntu_upgradeable_packages | default([])) | length }} ({{ (ubuntu_upgradeable_packages | default([])) | join(', ') }}). {% endif %}"
+
+    - name: Apply security upgrades
+      when: (ubuntu_upgradeable_packages | length > 0) or ((ubuntu_upgradeable_packages_security | default([])) | length > 0)
+      ansible.builtin.include_role:
+        name: packages_upgrade_security
+
+    - name: Check if system reboot is required
+      ansible.builtin.include_role:
+        name: system_reboot_check
+
+    - name: Check if service restart is required
+      ansible.builtin.include_role:
+        name: services_restart_check
+
+    - name: Display update and reboot summary
+      when: ((ubuntu_upgradeable_packages_security | default([])) | length > 0)
+            or ((ubuntu_upgradeable_packages | default([])) | length > 0)
+            or ((ubuntu_services_to_restart | length) > 0)
+            or (ubuntu_reboot_needed | default(False))
+      become: false
+      ansible.builtin.debug:
+        msg:
+          "PACKAGES: {{ ubuntu_upgrade_summary | default('NONE UPGRADED.') }} \
+          {% if ((ubuntu_services_to_restart | length) > 0) %}SERVICES TO RESTART: {{ ubuntu_services_to_restart | length }} ({{ ubuntu_services_to_restart | join(', ') }}). {% endif %}\
+          {% if (ubuntu_reboot_needed | default(False)) %}REBOOT IS NEEDED {{ 'AND ALLOWED' if ubuntu_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
+          {% if (not (ubuntu_reboot_needed | default(False)) and (ubuntu_services_reboot | default(False) and ((ubuntu_services_to_restart | default([])) | length > 0))) %}REBOOT IS NEEDED {{ 'AND ALLOWED' if ubuntu_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"

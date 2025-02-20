@@ -1,0 +1,2 @@
+ubuntu_shutdown_delay: 0
+ubuntu_shutdown_message: "System shutting down, initiated by Ansible."

@@ -1,0 +1,15 @@
+- name: Ubuntu - Unconditional system reboot
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Perform system reboot
+      ansible.builtin.include_role:
+        name: system_reboot
+
+    - name: Confirm successful system reboot
+      become: false
+      ansible.builtin.debug:
+        msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
+      failed_when: not (ubuntu_reboot_successfull | default(False))

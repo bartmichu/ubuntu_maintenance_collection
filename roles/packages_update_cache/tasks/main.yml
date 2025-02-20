@@ -1,0 +1,5 @@
+- name: Update package repositories cache
+  become: true
+  ansible.builtin.apt:
+    force_apt_get: false
+    update_cache: true

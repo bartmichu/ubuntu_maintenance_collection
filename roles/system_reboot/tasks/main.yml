@@ -1,0 +1,11 @@
+- name: Reboot system
+  become: true
+  ansible.builtin.reboot:
+    post_reboot_delay: "{{ ubuntu_post_reboot_delay }}"
+  register: ubuntu_reboot_result
+
+- name: Set host facts # noqa: no-handler
+  when: ubuntu_reboot_result.changed
+  become: false
+  ansible.builtin.set_fact:
+    ubuntu_reboot_successfull: "{{ True if (ubuntu_reboot_result.rebooted == true) else False }}"

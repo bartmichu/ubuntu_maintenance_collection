@@ -1,0 +1,16 @@
+- name: Register services which need to be restarted
+  become: true
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: >
+      set -o pipefail &&
+      /usr/sbin/needrestart -b -l -r l |
+      /usr/bin/awk '/^NEEDRESTART-SVC/{print $2}'
+  changed_when: false
+  # TODO: failed_when: ubuntu_needrestart_check.rc != ???
+  register: ubuntu_needrestart_check
+
+- name: Set host facts
+  become: false
+  ansible.builtin.set_fact:
+    ubuntu_services_to_restart: "{{ (ubuntu_needrestart_check.stdout_lines | default('')) | list }}"

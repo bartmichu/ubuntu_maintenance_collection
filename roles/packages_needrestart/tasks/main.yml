@@ -1,0 +1,9 @@
+- name: Install needrestart releated packages
+  become: true
+  ansible.builtin.apt:
+    force_apt_get: false
+    update_cache: false
+    state: present
+    name:
+      - libpam-systemd
+      - needrestart

@@ -1,0 +1,68 @@
+- name: Ubuntu - Restart services
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Gather the package facts
+      become: false
+      ansible.builtin.package_facts:
+        manager: apt
+
+    - name: Install packages
+      when: "'needrestart' not in ansible_facts.packages"
+      block:
+
+        - name: Update package repositories cache
+          ansible.builtin.include_role:
+            name: packages_update_cache
+
+        - name: Install needrestart releated packages
+          ansible.builtin.include_role:
+            name: packages_needrestart
+
+    - name: Check if service restart is required
+      ansible.builtin.include_role:
+        name: services_restart_check
+
+    - name: Store initial list of services needing restart
+      become: false
+      ansible.builtin.set_fact:
+        ubuntu_needrestart_first_check: "{{ ubuntu_services_to_restart }}"
+
+    - name: Display services that need to be restarted
+      when: ubuntu_needrestart_first_check | length > 0
+      become: false
+      ansible.builtin.debug:
+        msg: "SERVICES TO RESTART: {{ ubuntu_needrestart_first_check | length }} ({{ ubuntu_needrestart_first_check | join(', ') }})"
+
+    - name: Restart services that require it
+      when: ubuntu_services_restart_allowed and (ubuntu_needrestart_first_check | length > 0)
+      ansible.builtin.include_role:
+        name: services_restart
+        public: true
+
+    - name: Re-check if service restart is required after restart attempt
+      when: ubuntu_needrestart_first_check | length > 0
+      ansible.builtin.include_role:
+        name: services_restart_check
+
+    - name: Store updated list of services still needing restart
+      when: ubuntu_needrestart_first_check | length > 0
+      become: false
+      ansible.builtin.set_fact:
+        ubuntu_needrestart_second_check: "{{ ubuntu_services_to_restart }}"
+
+    - name: Display services that were not restarted
+      when: (ubuntu_needrestart_second_check | default([])) | length > 0
+      become: false
+      ansible.builtin.debug:
+        msg: "SERVICES STILL TO RESTART: {{ ubuntu_needrestart_second_check | length }} ({{ ubuntu_needrestart_second_check | join(', ') }})"
+
+    - name: Display restart summary
+      when: ubuntu_needrestart_first_check | length > 0
+      become: false
+      ansible.builtin.debug:
+        msg:
+          "RESTARTED SERVICES: {{ ((ubuntu_needrestart_first_check | length) - (ubuntu_needrestart_second_check | length)) if ubuntu_services_restart_allowed else 0 }}
+          / {{ ubuntu_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if ubuntu_services_restart_allowed == False else '' }}"

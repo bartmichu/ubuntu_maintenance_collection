@@ -1,0 +1,19 @@
+- name: Install security upgrades
+  become: true
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: >
+      set -o pipefail &&
+      /usr/bin/apt list --upgradeable  |
+      /usr/bin/grep '-security' |
+      /usr/bin/cut --delimiter \/ --fields 1 |
+      /usr/bin/xargs /usr/bin/apt-get install --yes --only-upgrade
+  # TODO: failed_when: ubuntu_security_upgrade_result.rc != 0
+  failed_when: false
+  changed_when: true
+  register: ubuntu_security_upgrade_result
+
+- name: Set host facts
+  become: false
+  ansible.builtin.set_fact:
+    ubuntu_upgrade_summary: "{{ (ubuntu_security_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"

@@ -1,0 +1,35 @@
+- name: Check all upgrades # noqa: command-instead-of-module
+  become: false
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: >
+      set -o pipefail &&
+      /usr/bin/apt-get --simulate upgrade --verbose-versions |
+      /usr/bin/grep ^Inst |
+      /usr/bin/cut --delimiter ' ' --fields 2
+  register: ubuntu_upgrade_check
+  # TODO: failed_when: ubuntu_upgrade_check.rc != 0
+  failed_when: false
+  changed_when: false
+
+- name: Check security upgrades # noqa: command-instead-of-module
+  become: false
+  ansible.builtin.shell:
+    # TODO: apt-get --simulate upgrade --verbose-versions | awk '/^Inst.*security/ {print $2}'
+    executable: /bin/bash
+    cmd: >
+      set -o pipefail &&
+      /usr/bin/apt-get --simulate upgrade --verbose-versions |
+      /usr/bin/grep ^Inst |
+      /usr/bin/grep --ignore-case security |
+      /usr/bin/cut --delimiter ' ' --fields 2
+  register: ubuntu_security_upgrade_check
+  # TODO: failed_when: ubuntu_security_upgrade_check.rc != 0
+  failed_when: false
+  changed_when: false
+
+- name: Set host facts
+  become: false
+  ansible.builtin.set_fact:
+    ubuntu_upgradeable_packages: "{{ ((ubuntu_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
+    ubuntu_upgradeable_packages_security: "{{ ((ubuntu_security_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"

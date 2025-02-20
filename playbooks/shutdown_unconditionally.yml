@@ -1,0 +1,15 @@
+- name: Ubuntu - Unconditional system shutdown
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Perform system shutdown
+      ansible.builtin.include_role:
+        name: system_shutdown
+
+    - name: Confirm successful system shutdown
+      become: false
+      ansible.builtin.debug:
+        msg: "SYSTEM WAS SUCCESSFULLY SHUTDOWN"
+      failed_when: not (ubuntu_shutdown_successfull | default(False))

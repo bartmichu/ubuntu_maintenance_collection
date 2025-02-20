@@ -1,0 +1,11 @@
+- name: Upgrade all installed packages
+  become: true
+  ansible.builtin.apt:
+    force_apt_get: true
+    upgrade: "yes"
+  register: ubuntu_upgrade_result
+
+- name: Set host facts
+  become: false
+  ansible.builtin.set_fact:
+    ubuntu_upgrade_summary: "{{ (ubuntu_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"
