@@ -30,12 +30,16 @@
       ansible.builtin.include_role:
         name: services_restart_check
 
+    - name: Ensure that required facts are defined outside Jinja
+      ansible.builtin.set_fact:
+        ubuntu_reboot_allowed: "{{ ubuntu_reboot_allowed | default(False) }}"
+
     - name: Display reboot requirement status
       when: (ubuntu_reboot_needed | default(False))
             or ((ubuntu_services_reboot | default(False)) and ((ubuntu_services_to_restart | default([])) | length > 0))
       become: false
       ansible.builtin.debug:
-        msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if (ubuntu_reboot_allowed | default(False)) == False }}"
+        msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if ubuntu_reboot_allowed == False }}"
 
     - name: Reboot block
       when: ((ubuntu_reboot_needed | default(False)) or ((ubuntu_services_reboot | default(False)) and ((ubuntu_services_to_restart | default([])) | length > 0)))

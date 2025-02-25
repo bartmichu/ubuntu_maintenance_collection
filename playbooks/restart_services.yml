@@ -59,10 +59,14 @@
       ansible.builtin.debug:
         msg: "SERVICES STILL TO RESTART: {{ ubuntu_needrestart_second_check | length }} ({{ ubuntu_needrestart_second_check | join(', ') }})"
 
+    - name: Ensure that required facts are defined outside Jinja
+      ansible.builtin.set_fact:
+        ubuntu_services_restart_allowed: "{{ ubuntu_services_restart_allowed | default(False) }}"
+
     - name: Display restart summary
       when: ubuntu_needrestart_first_check | length > 0
       become: false
       ansible.builtin.debug:
         msg:
-          "RESTARTED SERVICES: {{ ((ubuntu_needrestart_first_check | length) - (ubuntu_needrestart_second_check | length)) if (ubuntu_services_restart_allowed | default(False)) else 0 }}
-          / {{ ubuntu_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if (ubuntu_services_restart_allowed | default(False)) == False else '' }}"
+          "RESTARTED SERVICES: {{ ((ubuntu_needrestart_first_check | length) - (ubuntu_needrestart_second_check | length)) if ubuntu_services_restart_allowed else 0 }}
+          / {{ ubuntu_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if ubuntu_services_restart_allowed == False else '' }}"

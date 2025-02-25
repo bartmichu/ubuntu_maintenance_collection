@@ -30,22 +30,27 @@
       ansible.builtin.include_role:
         name: system_reboot_check
 
+    - name: Ensure that required facts are defined outside Jinja
+      ansible.builtin.set_fact:
+        ubuntu_reboot_allowed: "{{ ubuntu_reboot_allowed | default(False) }}"
+        ubuntu_services_reboot: "{{ ubuntu_services_reboot | default(False) }}"
+
     - name: Display system update and service restart summary
-      when: ((ubuntu_upgradeable_packages_security | default([])) | length > 0)
-            or ((ubuntu_upgradeable_packages | default([])) | length > 0)
+      when: (ubuntu_upgradeable_packages_security | length > 0)
+            or (ubuntu_upgradeable_packages | length > 0)
             or ((ubuntu_services_to_restart | length) > 0)
-            or (ubuntu_reboot_needed | default(False))
-            or ((ubuntu_services_reboot | default(False)) and ((ubuntu_services_to_restart | default([])) | length > 0))
+            or (ubuntu_reboot_needed)
+            or (ubuntu_services_reboot and (ubuntu_services_to_restart | length > 0))
       become: false
       ansible.builtin.debug:
         msg:
-          "{% if ((ubuntu_upgradeable_packages_security | default([])) | length > 0) %}\
-          PENDING SECURITY UPGRADES: {{ (ubuntu_upgradeable_packages_security | default([])) | length }} ({{ (ubuntu_upgradeable_packages_security | default([])) | join(', ') }}). {% endif %}\
-          {% if ((ubuntu_upgradeable_packages | default([])) | length > 0) %}\
-          PENDING UPGRADES: {{ (ubuntu_upgradeable_packages | default([])) | length }} ({{ (ubuntu_upgradeable_packages | default([])) | join(', ') }}). {% endif %}\
-          {% if ((ubuntu_services_to_restart | length) > 0) %}\
+          "{% if (ubuntu_upgradeable_packages_security | length > 0) %}\
+          PENDING SECURITY UPGRADES: {{ ubuntu_upgradeable_packages_security | length }} ({{ ubuntu_upgradeable_packages_security | join(', ') }}). {% endif %}\
+          {% if (ubuntu_upgradeable_packages | length > 0) %}\
+          PENDING UPGRADES: {{ ubuntu_upgradeable_packages | length }} ({{ ubuntu_upgradeable_packages | join(', ') }}). {% endif %}\
+          {% if (ubuntu_services_to_restart | length > 0) %}\
           SERVICES TO RESTART: {{ ubuntu_services_to_restart | length }} ({{ ubuntu_services_to_restart | join(', ') }}). {% endif %}\
-          {% if (ubuntu_reboot_needed | default(False)) %}\
-          REBOOT IS NEEDED {{ 'AND ALLOWED' if (ubuntu_reboot_allowed | default(False)) else 'BUT NOT ALLOWED' }}. {% endif %}\
-          {% if (not (ubuntu_reboot_needed | default(False)) and (ubuntu_services_reboot | default(False) and ((ubuntu_services_to_restart | default([])) | length > 0))) %}\
-          REBOOT IS NEEDED {{ 'AND ALLOWED' if (ubuntu_reboot_allowed | default(False)) else 'BUT NOT ALLOWED' }}.{% endif %}"
+          {% if ubuntu_reboot_needed %}\
+          REBOOT IS NEEDED {{ 'AND ALLOWED' if ubuntu_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
+          {% if (not ubuntu_reboot_needed and ubuntu_services_reboot and (ubuntu_services_to_restart | length > 0)) %}\
+          REBOOT IS NEEDED {{ 'AND ALLOWED' if ubuntu_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"
