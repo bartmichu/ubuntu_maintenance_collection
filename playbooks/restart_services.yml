@@ -37,7 +37,7 @@
         msg: "SERVICES TO RESTART: {{ ubuntu_needrestart_first_check | length }} ({{ ubuntu_needrestart_first_check | join(', ') }})"
 
     - name: Restart services that require it
-      when: ubuntu_services_restart_allowed and (ubuntu_needrestart_first_check | length > 0)
+      when: (ubuntu_services_restart_allowed | default(False)) and (ubuntu_needrestart_first_check | length > 0)
       ansible.builtin.include_role:
         name: services_restart
         public: true
@@ -64,5 +64,5 @@
       become: false
       ansible.builtin.debug:
         msg:
-          "RESTARTED SERVICES: {{ ((ubuntu_needrestart_first_check | length) - (ubuntu_needrestart_second_check | length)) if ubuntu_services_restart_allowed else 0 }}
-          / {{ ubuntu_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if ubuntu_services_restart_allowed == False else '' }}"
+          "RESTARTED SERVICES: {{ ((ubuntu_needrestart_first_check | length) - (ubuntu_needrestart_second_check | length)) if (ubuntu_services_restart_allowed | default(False)) else 0 }}
+          / {{ ubuntu_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if (ubuntu_services_restart_allowed | default(False)) == False else '' }}"

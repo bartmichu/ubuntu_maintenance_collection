@@ -49,7 +49,7 @@ See the individual role directories for their respective `README.md` files for m
 
 ## Variables
 
-Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `ubuntu_reboot_allowed`, which controls whether reboots are permitted.
+Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `ubuntu_reboot_allowed`, which controls whether reboots are permitted, as well as `ubuntu_services_reboot` and `ubuntu_services_restart_allowed`.
 
 ## License
 

@@ -46,6 +46,6 @@
           {% if ((ubuntu_services_to_restart | length) > 0) %}\
           SERVICES TO RESTART: {{ ubuntu_services_to_restart | length }} ({{ ubuntu_services_to_restart | join(', ') }}). {% endif %}\
           {% if (ubuntu_reboot_needed | default(False)) %}\
-          REBOOT IS NEEDED {{ 'AND ALLOWED' if ubuntu_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
+          REBOOT IS NEEDED {{ 'AND ALLOWED' if (ubuntu_reboot_allowed | default(False)) else 'BUT NOT ALLOWED' }}. {% endif %}\
           {% if (not (ubuntu_reboot_needed | default(False)) and (ubuntu_services_reboot | default(False) and ((ubuntu_services_to_restart | default([])) | length > 0))) %}\
-          REBOOT IS NEEDED {{ 'AND ALLOWED' if ubuntu_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"
+          REBOOT IS NEEDED {{ 'AND ALLOWED' if (ubuntu_reboot_allowed | default(False)) else 'BUT NOT ALLOWED' }}.{% endif %}"
