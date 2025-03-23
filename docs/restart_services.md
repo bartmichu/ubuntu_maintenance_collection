@@ -18,7 +18,7 @@ Define `umc_services_restart_allowed` appropriately before running the playbook.
 
 - `umc_services_restart_allowed`: A boolean variable that controls whether the services are allowed to be restarted. Set to true to allow service restarts, and false to prevent them.
 
-- This playbook als relies on facts set by the included roles.
+- This playbook also relies on facts set by the included roles.
 
 ## License
 

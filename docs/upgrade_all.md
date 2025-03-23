@@ -22,7 +22,7 @@ Define `umc_reboot_allowed` and `umc_services_reboot` appropriately before runni
 
 - `umc_services_reboot`: A boolean indicating if a reboot is required due to service restarts. Defaults to: `false`.
 
-- This playbook als relies on facts set by the included roles.
+- This playbook also relies on facts set by the included roles.
 
 ## License
 
