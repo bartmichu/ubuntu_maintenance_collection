@@ -19,6 +19,9 @@ ansible-galaxy collection install bartmichu.ubuntu_maintenance
 
 This collection includes the following playbooks:
 
+* `bootstrap_ansible_host.yml`
+  Performs automated bootstrapping of an Ansible-managed host.
+
 * `check_state.yml`
   Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. (See `docs/check_state.md` for more details).
 

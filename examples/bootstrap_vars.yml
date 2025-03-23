@@ -1,0 +1,5 @@
+umc_account_name_answer: ansible
+umc_account_password_answer: ChangeMePlease
+umc_key_path_answer: ~/.ssh/key.pub
+umc_authentication_required_answer: true
+umc_allowed_ip_answer: "*"
