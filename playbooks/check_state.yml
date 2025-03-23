@@ -1,4 +1,4 @@
-- name: Ubuntu - Check system state
+- name: Ubuntu Maintenance Collection - Check system state
   hosts: all
   gather_facts: true
 

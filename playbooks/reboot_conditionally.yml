@@ -1,4 +1,4 @@
-- name: Ubuntu - Conditional system reboot
+- name: Ubuntu Maintenance Collection - Reboot if needed and allowed
   hosts: all
   gather_facts: true
 
