@@ -4,7 +4,7 @@ This playbook checks the state of an Ubuntu system, including available package 
 
 This playbook is designed to be a check only. It does not perform any actual updates or reboots. Separate playbooks should be used for those actions.
 
-Define `ubuntu_reboot_allowed` and `ubuntu_services_reboot` appropriately before running the playbook. This is typically done at the playbook level, command line, or in an inventory file.
+Define `umc_reboot_allowed` and `umc_services_reboot` appropriately before running the playbook. This is typically done at the playbook level, command line, or in an inventory file.
 
 ## Requirements
 
@@ -19,9 +19,9 @@ Define `ubuntu_reboot_allowed` and `ubuntu_services_reboot` appropriately before
 
 ## Variables
 
-- `ubuntu_reboot_allowed`: A boolean variable that controls whether the system is allowed to reboot. Set to true to allow reboots, and false to prevent them. Defaults to: `false`.
+- `umc_reboot_allowed`: A boolean variable that controls whether the system is allowed to reboot. Set to true to allow reboots, and false to prevent them. Defaults to: `false`.
 
-- `ubuntu_services_reboot`: A boolean indicating if a reboot is required due to service restarts. Defaults to: `false`.
+- `umc_services_reboot`: A boolean indicating if a reboot is required due to service restarts. Defaults to: `false`.
 
 - This playbook als relies on facts set by the included roles.
 

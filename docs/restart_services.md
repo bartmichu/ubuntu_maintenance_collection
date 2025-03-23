@@ -2,7 +2,7 @@
 
 This playbook restarts services on Ubuntu systems that require it, using the `needrestart` utility. It performs a check before and after attempting the restarts to identify which services were successfully restarted and which still require attention.
 
-Define `ubuntu_services_restart_allowed` appropriately before running the playbook. This is typically done at the playbook level, command line, or in an inventory file.
+Define `umc_services_restart_allowed` appropriately before running the playbook. This is typically done at the playbook level, command line, or in an inventory file.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ Define `ubuntu_services_restart_allowed` appropriately before running the playbo
 
 ## Variables
 
-- `ubuntu_services_restart_allowed`: A boolean variable that controls whether the services are allowed to be restarted. Set to true to allow service restarts, and false to prevent them.
+- `umc_services_restart_allowed`: A boolean variable that controls whether the services are allowed to be restarted. Set to true to allow service restarts, and false to prevent them.
 
 - This playbook als relies on facts set by the included roles.
 

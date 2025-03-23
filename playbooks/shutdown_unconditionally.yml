@@ -12,4 +12,4 @@
       become: false
       ansible.builtin.debug:
         msg: "SYSTEM WAS SUCCESSFULLY SHUTDOWN"
-      failed_when: not (ubuntu_shutdown_successfull | default(False))
+      failed_when: not (umc_shutdown_successfull | default(False))

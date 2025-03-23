@@ -3,9 +3,9 @@
   ansible.builtin.apt:
     force_apt_get: true
     upgrade: "yes"
-  register: ubuntu_upgrade_result
+  register: umc_upgrade_result
 
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    ubuntu_upgrade_summary: "{{ (ubuntu_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"
+    umc_upgrade_summary: "{{ (umc_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"

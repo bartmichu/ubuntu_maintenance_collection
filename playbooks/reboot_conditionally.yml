@@ -26,24 +26,24 @@
         name: system_reboot_check
 
     - name: Check if service restart is required
-      when: ubuntu_services_reboot | default(False)
+      when: umc_services_reboot | default(False)
       ansible.builtin.include_role:
         name: services_restart_check
 
     - name: Ensure that required facts are defined outside Jinja
       ansible.builtin.set_fact:
-        ubuntu_reboot_allowed: "{{ ubuntu_reboot_allowed | default(False) }}"
+        umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
 
     - name: Display reboot requirement status
-      when: (ubuntu_reboot_needed | default(False))
-            or ((ubuntu_services_reboot | default(False)) and ((ubuntu_services_to_restart | default([])) | length > 0))
+      when: (umc_reboot_needed | default(False))
+            or ((umc_services_reboot | default(False)) and ((umc_services_to_restart | default([])) | length > 0))
       become: false
       ansible.builtin.debug:
-        msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if ubuntu_reboot_allowed == False }}"
+        msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
 
     - name: Reboot block
-      when: ((ubuntu_reboot_needed | default(False)) or ((ubuntu_services_reboot | default(False)) and ((ubuntu_services_to_restart | default([])) | length > 0)))
-              and (ubuntu_reboot_allowed | default(False))
+      when: ((umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((umc_services_to_restart | default([])) | length > 0)))
+              and (umc_reboot_allowed | default(False))
       block:
 
         - name: Perform system reboot
@@ -54,4 +54,4 @@
           become: false
           ansible.builtin.debug:
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
-          failed_when: not (ubuntu_reboot_successfull | default(False))
+          failed_when: not (umc_reboot_successfull | default(False))

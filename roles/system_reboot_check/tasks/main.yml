@@ -3,10 +3,10 @@
   ansible.builtin.stat:
     path: /var/run/reboot-required
     get_checksum: false
-  register: ubuntu_reboot_sentinel_check
+  register: umc_reboot_sentinel_check
 
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    ubuntu_reboot_needed: "{{ True if ubuntu_reboot_sentinel_check.stat.exists else False }}"
+    umc_reboot_needed: "{{ True if umc_reboot_sentinel_check.stat.exists else False }}"
     # TODO: implement system_reboot_reason

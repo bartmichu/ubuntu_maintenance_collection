@@ -23,7 +23,7 @@ This collection includes the following playbooks:
   Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. (See `docs/check_state.md` for more details).
 
 * `reboot_conditionally.yml`
-  Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `ubuntu_reboot_allowed` variable. (See `docs/reboot_conditionally.md` for more details).
+  Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `umc_reboot_allowed` variable. (See `docs/reboot_conditionally.md` for more details).
 
 * `reboot_unconditionally.yml`
   Performs an unconditional system reboot. Use with caution! (See `docs/reboot_unconditionally.md` for more details).
@@ -49,7 +49,7 @@ See the individual role directories for their respective `README.md` files for m
 
 ## Variables
 
-Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `ubuntu_reboot_allowed`, which controls whether reboots are permitted, as well as `ubuntu_services_reboot` and `ubuntu_services_restart_allowed`.
+Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `umc_reboot_allowed`, which controls whether reboots are permitted, as well as `umc_services_reboot` and `umc_services_restart_allowed`.
 
 ## License
 

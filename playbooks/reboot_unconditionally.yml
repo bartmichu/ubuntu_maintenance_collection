@@ -12,4 +12,4 @@
       become: false
       ansible.builtin.debug:
         msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
-      failed_when: not (ubuntu_reboot_successfull | default(False))
+      failed_when: not (umc_reboot_successfull | default(False))
