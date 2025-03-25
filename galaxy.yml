@@ -1,6 +1,6 @@
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 2.0.0
+version: 2.0.16
 description: A collection of Ubuntu maintenance playbooks and roles
 tags: ['linux', 'ubuntu', 'maintenance', 'bootstrap', 'account', 'update', 'upgrade', 'apt', 'reboot', 'restart', 'security']
 

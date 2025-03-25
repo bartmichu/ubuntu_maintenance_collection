@@ -32,10 +32,6 @@
 
   tasks:
 
-    - name: Include common handlers
-      ansible.builtin.include_tasks:
-        file: ../handlers/main.yml
-
     - name: Set host facts
       become: false
       ansible.builtin.set_fact:
@@ -136,5 +132,12 @@
             group: root
             mode: "0640"
             validate: /usr/sbin/sshd -t -f %s
-          notify:
-            - Restart SSH server
+          register: _umc_ssh_result
+
+        - name: Restart SSH server # noqa: no-handler
+          when: _umc_ssh_result.changed
+          become: true
+          ansible.builtin.systemd_service:
+            name: "{{ 'ssh.socket' if ansible_distribution_release == 'noble' else 'sshd.service' }}"
+            enabled: true
+            state: restarted
