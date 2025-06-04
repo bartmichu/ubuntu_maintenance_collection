@@ -17,6 +17,8 @@ Examples:
 ```shell
 ansible-playbook --key-file ~/.ssh/keyfile --inventory "root@10.0.0.2," bootstrap_ansible_host.yml
 
+ansible-playbook --ask-pass --inventory "root@10.0.0.1," bootstrap_ansible_host.yml --extra-vars "@bootstrap_vars.yml"
+
 ansible-playbook --ask-become-pass --key-file ~/.ssh/keyfile --inventory "hostname," bootstrap_ansible_host.yml
 
 ansible-playbook --ask-pass --ask-become-pass --inventory "username@10.0.0.1," bootstrap_ansible_host.yml
