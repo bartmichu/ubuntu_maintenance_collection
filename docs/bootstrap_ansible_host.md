@@ -46,8 +46,8 @@ The playbook uses the following variables, which are prompted from the user:
 
 The playbook uses the following templates:
 
-- `sudoers.j2`: Configures sudo permissions for the new user.
-- `sshd.j2`: Configures the SSH server settings.
+- `account-ansible-sudoers.j2`: Configures sudo permissions for the new user.
+- `account-ansible-sshd.conf.j2`: Configures the SSH server settings.
 
 ## License
 

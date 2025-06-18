@@ -109,7 +109,7 @@
         - name: Add sudo configuration file
           become: true
           ansible.builtin.template:
-            src: sudoers.j2
+            src: account-ansible-sudoers.j2
             dest: "/etc/sudoers.d/account-ansible-{{ umc_ansible_account_name }}"
             force: true
             backup: false
@@ -124,7 +124,7 @@
         - name: Add SSH configuration file
           become: true
           ansible.builtin.template:
-            src: sshd.j2
+            src: account-ansible-sshd.conf.j2
             dest: "/etc/ssh/sshd_config.d/account-ansible-{{ umc_ansible_account_name }}.conf"
             force: true
             backup: false
