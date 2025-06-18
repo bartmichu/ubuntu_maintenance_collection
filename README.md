@@ -19,6 +19,9 @@ ansible-galaxy collection install bartmichu.ubuntu_maintenance
 
 This collection includes the following playbooks:
 
+* `account_shutdown.yaml`
+  Creates a dedicated, restricted user account designed solely for initiating system shutdowns via SSH.
+
 * `bootstrap_ansible_host.yaml`
   Performs automated bootstrapping of an Ansible-managed host.
 

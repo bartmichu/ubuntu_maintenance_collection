@@ -1,0 +1,9 @@
+- name: Ubuntu Maintenance Collection - Add dedicated shutdown account
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Add shutdown account
+      ansible.builtin.include_role:
+        name: account_shutdown

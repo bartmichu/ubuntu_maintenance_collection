@@ -1,0 +1,100 @@
+- name: Set host facts
+  become: false
+  ansible.builtin.set_fact:
+    umc_shutdown_account_allowed_ip: "{{ umc_shutdown_account_allowed_ip | trim }}"
+    umc_shutdown_account_key_path: "{{ umc_shutdown_account_key_path | trim }}"
+    umc_shutdown_account_name: "{{ umc_shutdown_account_name | trim }}"
+
+- name: Validation block
+  block:
+
+    - name: Validate account name
+      become: false
+      ansible.builtin.assert:
+        that:
+          - umc_shutdown_account_name is match("^[a-z_][a-z0-9_-]{0,31}$")
+          - umc_shutdown_account_name != "root"
+        fail_msg: "INVALID ACCOUNT NAME"
+
+    - name: Validate key path
+      become: false
+      ansible.builtin.assert:
+        that:
+          - umc_shutdown_account_key_path | length > 0
+          - lookup('ansible.builtin.fileglob', umc_shutdown_account_key_path) | length > 0
+          - umc_shutdown_account_key_path is regex(".*\\.pub$")
+        fail_msg: "INVALID KEY PATH"
+
+    - name: Validate trusted IP
+      become: false
+      ansible.builtin.assert:
+        that:
+          - umc_shutdown_account_allowed_ip | length > 0
+        fail_msg: "INVALID IP ADDRESS"
+
+- name: Account block
+  block:
+
+    - name: Add dedicated user account
+    # TODO: * password?
+      become: true
+      ansible.builtin.user:
+        name: "{{ umc_shutdown_account_name }}"
+        password: "{{ lookup('ansible.builtin.password', '/dev/null length=25') | string | password_hash('sha512') }}"
+        shell: /bin/bash
+      no_log: true
+
+    - name: Set up authorized key
+      become: true
+      ansible.posix.authorized_key:
+        exclusive: true
+        key_options: 'no-port-forwarding,no-x11-forwarding,no-agent-forwarding,no-pty,command="/usr/bin/sudo /usr/bin/systemctl --ignore-inhibitors --no-wall poweroff"'
+        key: "{{ lookup('ansible.builtin.file', umc_shutdown_account_key_path) }}"
+        state: present
+        user: "{{ umc_shutdown_account_name }}"
+
+- name: Installation block
+  block:
+
+    - name: Install sudo package
+      become: true
+      ansible.builtin.package:
+        name:
+          - sudo
+        state: present
+
+    - name: Add sudo configuration file
+      become: true
+      ansible.builtin.template:
+        backup: false
+        dest: "/etc/sudoers.d/account-shutdown-{{ umc_shutdown_account_name }}"
+        force: true
+        group: root
+        mode: "0440"
+        owner: root
+        src: account-shutdown.j2
+        validate: /usr/sbin/visudo -cf %s
+
+- name: SSH block
+  block:
+
+    - name: Add SSH configuration file
+      become: true
+      ansible.builtin.template:
+        backup: false
+        dest: "/etc/ssh/sshd_config.d/account-shutdown-{{ umc_shutdown_account_name }}.conf"
+        force: true
+        group: root
+        mode: "0640"
+        owner: root
+        src: account-shutdown.conf.j2
+        validate: /usr/sbin/sshd -t -f %s
+      register: _umc_ssh_result
+
+    - name: Restart SSH server # noqa: no-handler
+      when: _umc_ssh_result.changed
+      become: true
+      ansible.builtin.systemd_service:
+        enabled: true
+        name: "{{ 'ssh.socket' if ansible_distribution_release == 'noble' else 'sshd.service' }}"
+        state: restarted

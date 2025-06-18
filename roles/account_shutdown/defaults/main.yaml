@@ -1,0 +1,3 @@
+umc_shutdown_account_name: ""
+umc_shutdown_account_key_path: ""
+umc_shutdown_account_allowed_ip: "*"
