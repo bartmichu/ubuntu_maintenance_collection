@@ -4,8 +4,8 @@
 # CAUTION: Any syntax error introduced here will break sudo.
 
 # Allow dedicated ansible account to perform administrative tasks
-{% if umc_authentication_required %}
-{{ umc_account_name }} ALL=(root) PASSWD: ALL
+{% if umc_ansible_account_authentication_required %}
+{{ umc_ansible_account_name }} ALL=(root) PASSWD: ALL
 {% else %}
-{{ umc_account_name }} ALL=(root) NOPASSWD: ALL
+{{ umc_ansible_account_name }} ALL=(root) NOPASSWD: ALL
 {% endif %}

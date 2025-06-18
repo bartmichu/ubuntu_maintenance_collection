@@ -32,15 +32,15 @@ ansible-playbook --ask-pass --ask-become-pass --inventory "username@10.0.0.1," b
 
 The playbook uses the following variables, which are prompted from the user:
 
-- `umc_account_name_answer`: The name of the new user account. It's required to use a name other than `root`. Defaults to: `ansible`.
+- `umc_ansible_account_name_answer`: The name of the new user account. It's required to use a name other than `root`. Defaults to: `ansible`.
 
-- `umc_account_password_answer`: The password for the new user account. Defaults to: random string.
+- `umc_ansible_account_password_answer`: The password for the new user account. Defaults to: random string.
 
-- `umc_key_path_answer`: The path to the public SSH key file (`.pub`) that will be used for SSH authentication.
+- `umc_ansible_account_key_path_answer`: The path to the public SSH key file (`.pub`) that will be used for SSH authentication.
 
-- `umc_authentication_required_answer`: Whether to require user authentication before running root commands. Defaults to: `True`.
+- `umc_ansible_account_authentication_required_answer`: Whether to require user authentication before running root commands. Defaults to: `True`.
 
-- `umc_allowed_ip_answer`: The IP address allowed for SSH access. Use * to allow all IPs (less secure, use with caution). Defaults to: `*`.
+- `umc_ansible_account_allowed_ip_answer`: The IP address allowed for SSH access. Use * to allow all IPs (less secure, use with caution). Defaults to: `*`.
 
 ## Templates
 
