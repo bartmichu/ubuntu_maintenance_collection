@@ -4,6 +4,6 @@
 
   tasks:
 
-    - name: Add shutdown account
+    - name: Run account_shutdown role
       ansible.builtin.include_role:
         name: account_shutdown

@@ -4,7 +4,7 @@
 
   tasks:
 
-    - name: Perform system shutdown
+    - name: Run system_shutdown role
       ansible.builtin.include_role:
         name: system_shutdown
 

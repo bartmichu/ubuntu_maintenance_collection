@@ -13,19 +13,19 @@
       when: "'needrestart' not in ansible_facts.packages"
       block:
 
-        - name: Update package repositories cache
+        - name: Run packages_update_cache role
           ansible.builtin.include_role:
             name: packages_update_cache
 
-        - name: Install needrestart releated packages
+        - name: Run packages_needrestart role
           ansible.builtin.include_role:
             name: packages_needrestart
 
-    - name: Check if system reboot is required
+    - name: Run system_reboot_check role
       ansible.builtin.include_role:
         name: system_reboot_check
 
-    - name: Check if service restart is required
+    - name: Run services_restart_check role
       when: umc_services_reboot | default(False)
       ansible.builtin.include_role:
         name: services_restart_check
@@ -47,7 +47,7 @@
               and (umc_reboot_allowed | default(False))
       block:
 
-        - name: Perform system reboot
+        - name: Run system_reboot role
           ansible.builtin.include_role:
             name: system_reboot
 

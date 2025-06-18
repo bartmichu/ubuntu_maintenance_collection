@@ -4,7 +4,7 @@
 
   tasks:
 
-    - name: Perform system reboot
+    - name: Run system_reboot role
       ansible.builtin.include_role:
         name: system_reboot
 
