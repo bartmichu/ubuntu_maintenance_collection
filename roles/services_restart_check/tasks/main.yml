@@ -13,4 +13,4 @@
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    umc_services_to_restart: "{{ (_umc_needrestart_check.stdout_lines | default('')) | list }}"
+    _umc_services_to_restart: "{{ (_umc_needrestart_check.stdout_lines | default('')) | list }}"

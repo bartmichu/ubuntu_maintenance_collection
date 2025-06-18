@@ -8,4 +8,4 @@
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    umc_upgrade_summary: "{{ (_umc_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"
+    _umc_upgrade_summary: "{{ (_umc_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"

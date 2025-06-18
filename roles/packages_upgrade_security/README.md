@@ -6,7 +6,7 @@ This Ansible role installs available security upgrades on Ubuntu systems.
 
 The `packages_upgrade_security` role identifies and installs security upgrades.
 
-The role captures the output of the upgrade process and extracts a summary line which is stored as a `umc_upgrade_summary` host fact.
+The role captures the output of the upgrade process and extracts a summary line which is stored as a `_umc_upgrade_summary` host fact.
 
 ## Requirements
 

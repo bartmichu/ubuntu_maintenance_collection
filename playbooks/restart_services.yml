@@ -28,45 +28,45 @@
     - name: Store initial list of services needing restart
       become: false
       ansible.builtin.set_fact:
-        umc_needrestart_first_check: "{{ umc_services_to_restart }}"
+        _umc_needrestart_first_check: "{{ _umc_services_to_restart }}"
 
     - name: Display services that need to be restarted
-      when: umc_needrestart_first_check | length > 0
+      when: _umc_needrestart_first_check | length > 0
       become: false
       ansible.builtin.debug:
-        msg: "SERVICES TO RESTART: {{ umc_needrestart_first_check | length }} ({{ umc_needrestart_first_check | join(', ') }})"
+        msg: "SERVICES TO RESTART: {{ _umc_needrestart_first_check | length }} ({{ _umc_needrestart_first_check | join(', ') }})"
 
     - name: Restart services that require it
-      when: (umc_services_restart_allowed | default(False)) and (umc_needrestart_first_check | length > 0)
+      when: (umc_services_restart_allowed | default(False)) and (_umc_needrestart_first_check | length > 0)
       ansible.builtin.include_role:
         name: services_restart
         public: true
 
     - name: Re-check if service restart is required after restart attempt
-      when: umc_needrestart_first_check | length > 0
+      when: _umc_needrestart_first_check | length > 0
       ansible.builtin.include_role:
         name: services_restart_check
 
     - name: Store updated list of services still needing restart
-      when: umc_needrestart_first_check | length > 0
+      when: _umc_needrestart_first_check | length > 0
       become: false
       ansible.builtin.set_fact:
-        umc_needrestart_second_check: "{{ umc_services_to_restart }}"
+        _umc_needrestart_second_check: "{{ _umc_services_to_restart }}"
 
     - name: Display services that were not restarted
-      when: (umc_needrestart_second_check | default([])) | length > 0
+      when: (_umc_needrestart_second_check | default([])) | length > 0
       become: false
       ansible.builtin.debug:
-        msg: "SERVICES STILL TO RESTART: {{ umc_needrestart_second_check | length }} ({{ umc_needrestart_second_check | join(', ') }})"
+        msg: "SERVICES STILL TO RESTART: {{ _umc_needrestart_second_check | length }} ({{ _umc_needrestart_second_check | join(', ') }})"
 
     - name: Ensure that required facts are defined outside Jinja
       ansible.builtin.set_fact:
         umc_services_restart_allowed: "{{ umc_services_restart_allowed | default(False) }}"
 
     - name: Display restart summary
-      when: umc_needrestart_first_check | length > 0
+      when: _umc_needrestart_first_check | length > 0
       become: false
       ansible.builtin.debug:
         msg:
-          "RESTARTED SERVICES: {{ ((umc_needrestart_first_check | length) - (umc_needrestart_second_check | length)) if umc_services_restart_allowed else 0 }}
-          / {{ umc_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if umc_services_restart_allowed == False else '' }}"
+          "RESTARTED SERVICES: {{ ((_umc_needrestart_first_check | length) - (_umc_needrestart_second_check | length)) if umc_services_restart_allowed else 0 }}
+          / {{ _umc_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if umc_services_restart_allowed == False else '' }}"

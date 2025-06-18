@@ -9,4 +9,4 @@
   when: _umc_shutdown_result.changed
   become: false
   ansible.builtin.set_fact:
-    umc_shutdown_successfull: "{{ True if (_umc_shutdown_result.shutdown == true) else False }}"
+    _umc_shutdown_successfull: "{{ True if (_umc_shutdown_result.shutdown == true) else False }}"

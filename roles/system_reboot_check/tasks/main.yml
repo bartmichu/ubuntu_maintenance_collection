@@ -8,5 +8,5 @@
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    umc_reboot_needed: "{{ True if _umc_reboot_sentinel_check.stat.exists else False }}"
+    _umc_reboot_needed: "{{ True if _umc_reboot_sentinel_check.stat.exists else False }}"
     # TODO: implement system_reboot_reason

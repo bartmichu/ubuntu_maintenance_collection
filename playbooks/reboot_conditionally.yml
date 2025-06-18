@@ -35,14 +35,14 @@
         umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
 
     - name: Display reboot requirement status
-      when: (umc_reboot_needed | default(False))
-            or ((umc_services_reboot | default(False)) and ((umc_services_to_restart | default([])) | length > 0))
+      when: (_umc_reboot_needed | default(False))
+            or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
       become: false
       ansible.builtin.debug:
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
 
     - name: Reboot block
-      when: ((umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((umc_services_to_restart | default([])) | length > 0)))
+      when: ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
               and (umc_reboot_allowed | default(False))
       block:
 
@@ -54,4 +54,4 @@
           become: false
           ansible.builtin.debug:
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
-          failed_when: not (umc_reboot_successfull | default(False))
+          failed_when: not (_umc_reboot_successfull | default(False))

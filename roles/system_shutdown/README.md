@@ -6,7 +6,7 @@ This Ansible role gracefully shuts down the target system.
 
 The `system_shutdown` role uses the `community.general.shutdown` module to initiate a system shutdown. It allows you to specify both the delay before shutdown and a custom message that will be displayed to users.
 
-The role sets a host fact `umc_shutdown_successfull` to `true` if the shutdown was successful, and `false` otherwise.
+The role sets a host fact `_umc_shutdown_successfull` to `true` if the shutdown was successful, and `false` otherwise.
 
 ## Requirements
 

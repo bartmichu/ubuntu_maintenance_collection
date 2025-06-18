@@ -23,15 +23,15 @@
         name: packages_upgrade_check
 
     - name: Display available package upgrades
-      when: ((umc_upgradeable_packages | default([])) | length > 0) or ((umc_upgradeable_packages_security | default([])) | length > 0)
+      when: ((_umc_upgradeable_packages_all | default([])) | length > 0) or ((_umc_upgradeable_packages_security | default([])) | length > 0)
       become: false
       ansible.builtin.debug:
         msg:
-          "{% if (umc_upgradeable_packages_security | length > 0) %}PENDING SECURITY UPGRADES: {{ umc_upgradeable_packages_security | length }} ({{ umc_upgradeable_packages_security | join(', ') }}). {% endif %}\
-          {% if (umc_upgradeable_packages | length > 0) %}PENDING UPGRADES: {{ umc_upgradeable_packages | length }} ({{ umc_upgradeable_packages | join(', ') }}). {% endif %}"
+          "{% if (_umc_upgradeable_packages_security | length > 0) %}PENDING SECURITY UPGRADES: {{ _umc_upgradeable_packages_security | length }} ({{ _umc_upgradeable_packages_security | join(', ') }}). {% endif %}\
+          {% if (_umc_upgradeable_packages_all | length > 0) %}PENDING UPGRADES: {{ _umc_upgradeable_packages_all | length }} ({{ _umc_upgradeable_packages_all | join(', ') }}). {% endif %}"
 
     - name: Upgrade all packages
-      when: (umc_upgradeable_packages | length > 0) or ((umc_upgradeable_packages_security | default([])) | length > 0)
+      when: (_umc_upgradeable_packages_all | length > 0) or ((_umc_upgradeable_packages_security | default([])) | length > 0)
       ansible.builtin.include_role:
         name: packages_upgrade_all
 
@@ -44,10 +44,10 @@
         name: services_restart_check
 
     - name: Display list of services that need to be restarted
-      when: umc_services_to_restart | length > 0
+      when: _umc_services_to_restart | length > 0
       become: false
       ansible.builtin.debug:
-        msg: "SERVICES TO RESTART: {{ umc_services_to_restart | length }} ({{ umc_services_to_restart | join(', ') }})"
+        msg: "SERVICES TO RESTART: {{ _umc_services_to_restart | length }} ({{ _umc_services_to_restart | join(', ') }})"
 
     - name: Ensure that required facts are defined outside Jinja
       ansible.builtin.set_fact:
@@ -55,26 +55,26 @@
         umc_services_reboot: "{{ umc_services_reboot | default(False) }}"
 
     - name: Display upgrade and restart summary
-      when: ((umc_upgradeable_packages | default([])) | length > 0)
-            or ((umc_services_to_restart | length) > 0)
-            or (umc_reboot_needed | default(False))
+      when: ((_umc_upgradeable_packages_all | default([])) | length > 0)
+            or ((_umc_services_to_restart | length) > 0)
+            or (_umc_reboot_needed | default(False))
       become: false
       ansible.builtin.debug:
         msg:
-          "PACKAGES: {{ umc_upgrade_summary | default('NONE UPGRADED.') }} \
-          {% if (umc_services_to_restart | length > 0) %}SERVICES TO RESTART: {{ umc_services_to_restart | length }} ({{ umc_services_to_restart | join(', ') }}). {% endif %}\
-          {% if umc_reboot_needed %}REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
-          {% if (not umc_reboot_needed and (umc_services_reboot and (umc_services_to_restart | length > 0))) %}REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"
+          "PACKAGES: {{ _umc_upgrade_summary | default('NONE UPGRADED.') }} \
+          {% if (_umc_services_to_restart | length > 0) %}SERVICES TO RESTART: {{ _umc_services_to_restart | length }} ({{ _umc_services_to_restart | join(', ') }}). {% endif %}\
+          {% if _umc_reboot_needed %}REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
+          {% if (not _umc_reboot_needed and (umc_services_reboot and (_umc_services_to_restart | length > 0))) %}REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"
 
     - name: Announce system reboot requirement
-      when: (umc_reboot_needed | default(False))
-            or ((umc_services_reboot | default(False)) and ((umc_services_to_restart | default([])) | length > 0))
+      when: (_umc_reboot_needed | default(False))
+            or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
       become: false
       ansible.builtin.debug:
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
 
     - name: Reboot block
-      when: ((umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((umc_services_to_restart | default([])) | length > 0)))
+      when: ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
               and (umc_reboot_allowed | default(False))
       block:
 
@@ -86,4 +86,4 @@
           become: false
           ansible.builtin.debug:
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
-          failed_when: not (umc_reboot_successfull | default(False))
+          failed_when: not (_umc_reboot_successfull | default(False))

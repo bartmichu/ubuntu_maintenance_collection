@@ -8,4 +8,4 @@
   when: _umc_reboot_result.changed
   become: false
   ansible.builtin.set_fact:
-    umc_reboot_successfull: "{{ True if (_umc_reboot_result.rebooted == true) else False }}"
+    _umc_reboot_successfull: "{{ True if (_umc_reboot_result.rebooted == true) else False }}"

@@ -31,5 +31,5 @@
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    umc_upgradeable_packages: "{{ ((_umc_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
-    umc_upgradeable_packages_security: "{{ ((_umc_security_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
+    _umc_upgradeable_packages_all: "{{ ((_umc_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
+    _umc_upgradeable_packages_security: "{{ ((_umc_security_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"

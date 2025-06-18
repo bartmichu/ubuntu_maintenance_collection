@@ -6,7 +6,7 @@ This Ansible role uses `needrestart` to identify services that require a restart
 
 The `services_restart_check` role leverages the `needrestart` utility to determine which services need to be restarted after system changes (like kernel updates or library upgrades).
 
-The role sets a host fact `umc_services_to_restart` with the names of the services.
+The role sets a host fact `_umc_services_to_restart` with the names of the services.
 
 ## Requirements
 

@@ -6,7 +6,7 @@ This Ansible role checks for available package upgrades, including security upgr
 
 The `packages_upgrade_check` role uses `apt-get --simulate upgrade --verbose-versions` to identify packages that can be upgraded without actually performing the upgrade.
 
-The results are stored in `umc_upgradeable_packages` and `umc_upgradeable_packages_security` host facts for use by other roles or plays. This allows you to separate the check for upgrades from the actual upgrade process, providing more flexibility in how you manage upgrades.
+The results are stored in `_umc_upgradeable_packages_all` and `_umc_upgradeable_packages_security` host facts for use by other roles or plays. This allows you to separate the check for upgrades from the actual upgrade process, providing more flexibility in how you manage upgrades.
 
 ## Requirements
 
