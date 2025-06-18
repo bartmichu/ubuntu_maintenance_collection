@@ -9,7 +9,7 @@
       ansible.builtin.package_facts:
         manager: apt
 
-    - name: Install packages
+    - name: Installation block
       when: "'needrestart' not in ansible_facts.packages"
       block:
 
@@ -31,6 +31,7 @@
         name: services_restart_check
 
     - name: Ensure that required facts are defined outside Jinja
+      become: false
       ansible.builtin.set_fact:
         umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
 

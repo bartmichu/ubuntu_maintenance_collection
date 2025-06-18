@@ -1,32 +1,32 @@
 - name: Check all upgrades # noqa: command-instead-of-module
   become: false
   ansible.builtin.shell:
-    executable: /bin/bash
     cmd: >
       set -o pipefail &&
       /usr/bin/apt-get --simulate upgrade --verbose-versions |
       /usr/bin/grep ^Inst |
       /usr/bin/cut --delimiter ' ' --fields 2
-  register: _umc_upgrade_check
+    executable: /bin/bash
   # TODO: failed_when: _umc_upgrade_check.rc != 0
-  failed_when: false
   changed_when: false
+  failed_when: false
+  register: _umc_upgrade_check
 
 - name: Check security upgrades # noqa: command-instead-of-module
   become: false
   ansible.builtin.shell:
     # TODO: apt-get --simulate upgrade --verbose-versions | awk '/^Inst.*security/ {print $2}'
-    executable: /bin/bash
     cmd: >
       set -o pipefail &&
       /usr/bin/apt-get --simulate upgrade --verbose-versions |
       /usr/bin/grep ^Inst |
       /usr/bin/grep --ignore-case security |
       /usr/bin/cut --delimiter ' ' --fields 2
-  register: _umc_security_upgrade_check
+    executable: /bin/bash
   # TODO: failed_when: _umc_security_upgrade_check.rc != 0
-  failed_when: false
   changed_when: false
+  failed_when: false
+  register: _umc_security_upgrade_check
 
 - name: Set host facts
   become: false

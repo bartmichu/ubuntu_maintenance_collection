@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+#
+
+# CAUTION: Any syntax error introduced here will break sudo.
+
+# Allow dedicated user account to power-off the machine
+{{ umc_shutdown_account_name }} ALL=(root) NOPASSWD: /usr/bin/systemctl --ignore-inhibitors --no-wall poweroff

@@ -31,6 +31,7 @@
         name: system_reboot_check
 
     - name: Ensure that required facts are defined outside Jinja
+      become: false
       ansible.builtin.set_fact:
         umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
         umc_services_reboot: "{{ umc_services_reboot | default(False) }}"

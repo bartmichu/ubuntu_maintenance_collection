@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+#
+
+Match User {{ umc_shutdown_account_name }}
+  AllowUsers *@{{ umc_shutdown_account_allowed_ip }}
+  AuthenticationMethods publickey
+  PasswordAuthentication no
+  PermitTTY no
+  X11Forwarding no
+  PermitTunnel no
+  GatewayPorts no
+  Banner none

@@ -1,8 +1,8 @@
 - name: Check for reboot-required flag file
   become: false
   ansible.builtin.stat:
-    path: /var/run/reboot-required
     get_checksum: false
+    path: /var/run/reboot-required
   register: _umc_reboot_sentinel_check
 
 - name: Set host facts

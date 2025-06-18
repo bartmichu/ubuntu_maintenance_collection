@@ -1,16 +1,16 @@
 - name: Install security upgrades
   become: true
   ansible.builtin.shell:
-    executable: /bin/bash
     cmd: >
       set -o pipefail &&
       /usr/bin/apt list --upgradeable  |
       /usr/bin/grep '-security' |
       /usr/bin/cut --delimiter \/ --fields 1 |
       /usr/bin/xargs /usr/bin/apt-get install --yes --only-upgrade
+    executable: /bin/bash
   # TODO: failed_when: _umc_security_upgrade_result.rc != 0
-  failed_when: false
   changed_when: true
+  failed_when: false
   register: _umc_security_upgrade_result
 
 - name: Set host facts
