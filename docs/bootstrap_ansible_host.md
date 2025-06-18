@@ -2,7 +2,7 @@
 
 This playbook automates the bootstrapping of an Ubuntu managed host, configuring a dedicated user account, SSH access, and sudo permissions. It's designed to be run on newly provisioned servers before they are fully integrated into your Ansible infrastructure.
 
-Configuration details are obtained either through user prompts or by using values supplied via the extra variables flag (-e).
+Configuration details are obtained either through user prompts or by using values supplied via the extra variables flag (`--extra-vars`).
 
 ## Usage
 
