@@ -7,8 +7,8 @@
       /usr/bin/apt-get --simulate upgrade --verbose-versions |
       /usr/bin/grep ^Inst |
       /usr/bin/cut --delimiter ' ' --fields 2
-  register: umc_upgrade_check
-  # TODO: failed_when: umc_upgrade_check.rc != 0
+  register: _umc_upgrade_check
+  # TODO: failed_when: _umc_upgrade_check.rc != 0
   failed_when: false
   changed_when: false
 
@@ -23,13 +23,13 @@
       /usr/bin/grep ^Inst |
       /usr/bin/grep --ignore-case security |
       /usr/bin/cut --delimiter ' ' --fields 2
-  register: umc_security_upgrade_check
-  # TODO: failed_when: umc_security_upgrade_check.rc != 0
+  register: _umc_security_upgrade_check
+  # TODO: failed_when: _umc_security_upgrade_check.rc != 0
   failed_when: false
   changed_when: false
 
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    umc_upgradeable_packages: "{{ ((umc_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
-    umc_upgradeable_packages_security: "{{ ((umc_security_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
+    umc_upgradeable_packages: "{{ ((_umc_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"
+    umc_upgradeable_packages_security: "{{ ((_umc_security_upgrade_check.stdout_lines | default('')) | map('trim')) | list }}"

@@ -7,10 +7,10 @@
       /usr/sbin/needrestart -b -l -r l |
       /usr/bin/awk '/^NEEDRESTART-SVC/{print $2}'
   changed_when: false
-  # TODO: failed_when: umc_needrestart_check.rc != ???
-  register: umc_needrestart_check
+  # TODO: failed_when: _umc_needrestart_check.rc != ???
+  register: _umc_needrestart_check
 
 - name: Set host facts
   become: false
   ansible.builtin.set_fact:
-    umc_services_to_restart: "{{ (umc_needrestart_check.stdout_lines | default('')) | list }}"
+    umc_services_to_restart: "{{ (_umc_needrestart_check.stdout_lines | default('')) | list }}"

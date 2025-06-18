@@ -2,10 +2,10 @@
   become: true
   ansible.builtin.reboot:
     post_reboot_delay: "{{ umc_post_reboot_delay }}"
-  register: umc_reboot_result
+  register: _umc_reboot_result
 
 - name: Set host facts # noqa: no-handler
-  when: umc_reboot_result.changed
+  when: _umc_reboot_result.changed
   become: false
   ansible.builtin.set_fact:
-    umc_reboot_successfull: "{{ True if (umc_reboot_result.rebooted == true) else False }}"
+    umc_reboot_successfull: "{{ True if (_umc_reboot_result.rebooted == true) else False }}"
