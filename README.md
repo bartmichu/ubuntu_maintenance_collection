@@ -19,31 +19,31 @@ ansible-galaxy collection install bartmichu.ubuntu_maintenance
 
 This collection includes the following playbooks:
 
-* `bootstrap_ansible_host.yml`
+* `bootstrap_ansible_host.yaml`
   Performs automated bootstrapping of an Ansible-managed host.
 
-* `check_state.yml`
+* `check_state.yaml`
   Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. (See `docs/check_state.md` for more details).
 
-* `reboot_conditionally.yml`
+* `reboot_conditionally.yaml`
   Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `umc_reboot_allowed` variable. (See `docs/reboot_conditionally.md` for more details).
 
-* `reboot_unconditionally.yml`
+* `reboot_unconditionally.yaml`
   Performs an unconditional system reboot. Use with caution! (See `docs/reboot_unconditionally.md` for more details).
 
-* `services_restart.yml`
+* `services_restart.yaml`
   Restarts services that require it, using the `needrestart` utility. Performs a check before and after attempting the restarts to identify which services were successfully restarted and which still require attention. (See `docs/services_restart.md` for more details).
 
-* `shutdown_unconditionally.yml`
+* `shutdown_unconditionally.yaml`
   Performs an unconditional system shutdown. Use with caution! (See `docs/shutdown_unconditionally.md` for more details).
 
-* `upgrade_all_reboot.yml`
+* `upgrade_all_reboot.yaml`
   Updates all upgradeable packages (including security updates) and reboots the system if necessary and allowed. (See `docs/upgrade_all.md` for more details).
 
-* `upgrade_all.yml`
+* `upgrade_all.yaml`
   Updates all upgradeable packages (including security updates). Checks for required reboots and service restarts and reports on them. (See `docs/upgrade_all.md` for more details).
 
-* `upgrade_security.yml`
+* `upgrade_security.yaml`
   Installs available security updates. Checks for required reboots and service restarts and reports on them. (See `docs/upgrade_security.md` for more details).
 
 ## Roles
