@@ -1,6 +1,6 @@
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 3.0.2
+version: 3.0.3
 description: A collection of Ubuntu maintenance playbooks and roles
 tags: ['linux', 'ubuntu', 'maintenance', 'bootstrap', 'account', 'update', 'upgrade', 'apt', 'reboot', 'restart', 'security', 'ssh']
 
