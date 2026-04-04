@@ -31,6 +31,9 @@
       prompt: "Allowed IP address for SSH"
 
   tasks:
+    - name: Gather the service facts
+      become: false
+      ansible.builtin.service_facts:
 
     - name: Set host facts
       become: false
@@ -44,7 +47,6 @@
 
     - name: Validatation block
       block:
-
         - name: Validate account name
           become: false
           ansible.builtin.assert:
@@ -80,7 +82,6 @@
 
     - name: Account block
       block:
-
         - name: Add dedicated user account
           become: true
           ansible.builtin.user:
@@ -99,7 +100,6 @@
 
     - name: Sudo block
       block:
-
         - name: Install sudo package
           become: true
           ansible.builtin.package:
@@ -121,7 +121,6 @@
 
     - name: SSH Server block
       block:
-
         - name: Add SSH configuration file
           become: true
           ansible.builtin.template:
@@ -140,5 +139,5 @@
           become: true
           ansible.builtin.systemd_service:
             enabled: true
-            name: "{{ 'ssh.socket' if ansible_distribution_release == 'noble' else 'sshd.service' }}"
+            name: "{{ 'ssh.socket' if 'ssh.socket' in ansible_facts.services else 'sshd.service' }}"
             state: restarted
