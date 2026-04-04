@@ -3,7 +3,6 @@
   gather_facts: true
 
   tasks:
-
     - name: Gather the package facts
       become: false
       ansible.builtin.package_facts:
@@ -12,7 +11,6 @@
     - name: Installation block
       when: "'needrestart' not in ansible_facts.packages"
       block:
-
         - name: Run packages_update_cache role
           ansible.builtin.include_role:
             name: packages_update_cache
@@ -37,16 +35,16 @@
 
     - name: Display reboot requirement status
       when: (_umc_reboot_needed | default(False))
-            or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
+        or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
       become: false
       ansible.builtin.debug:
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
 
     - name: Reboot block
-      when: ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
-              and (umc_reboot_allowed | default(False))
+      when:
+        ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
+        and (umc_reboot_allowed | default(False))
       block:
-
         - name: Run system_reboot role
           ansible.builtin.include_role:
             name: system_reboot

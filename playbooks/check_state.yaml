@@ -3,7 +3,6 @@
   gather_facts: true
 
   tasks:
-
     - name: Gather the package facts
       become: false
       ansible.builtin.package_facts:
@@ -38,14 +37,13 @@
 
     - name: Display system update and service restart summary
       when: (_umc_upgradeable_packages_security | length > 0)
-            or (_umc_upgradeable_packages_all | length > 0)
-            or ((_umc_services_to_restart | length) > 0)
-            or (_umc_reboot_needed)
-            or (umc_services_reboot and (_umc_services_to_restart | length > 0))
+        or (_umc_upgradeable_packages_all | length > 0)
+        or ((_umc_services_to_restart | length) > 0)
+        or (_umc_reboot_needed)
+        or (umc_services_reboot and (_umc_services_to_restart | length > 0))
       become: false
       ansible.builtin.debug:
-        msg:
-          "{% if (_umc_upgradeable_packages_security | length > 0) %}\
+        msg: "{% if (_umc_upgradeable_packages_security | length > 0) %}\
           PENDING SECURITY UPGRADES: {{ _umc_upgradeable_packages_security | length }} ({{ _umc_upgradeable_packages_security | join(', ') }}). {% endif %}\
           {% if (_umc_upgradeable_packages_all | length > 0) %}\
           PENDING UPGRADES: {{ _umc_upgradeable_packages_all | length }} ({{ _umc_upgradeable_packages_all | join(', ') }}). {% endif %}\

@@ -3,7 +3,6 @@
   gather_facts: true
 
   tasks:
-
     - name: Gather the package facts
       become: false
       ansible.builtin.package_facts:
@@ -12,7 +11,6 @@
     - name: Installation block
       when: "'needrestart' not in ansible_facts.packages"
       block:
-
         - name: Run packages_update_cache role
           ansible.builtin.include_role:
             name: packages_update_cache

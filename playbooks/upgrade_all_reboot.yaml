@@ -3,7 +3,6 @@
   gather_facts: true
 
   tasks:
-
     - name: Gather the package facts
       become: false
       ansible.builtin.package_facts:
@@ -57,28 +56,27 @@
 
     - name: Display upgrade and restart summary
       when: ((_umc_upgradeable_packages_all | default([])) | length > 0)
-            or ((_umc_services_to_restart | length) > 0)
-            or (_umc_reboot_needed | default(False))
+        or ((_umc_services_to_restart | length) > 0)
+        or (_umc_reboot_needed | default(False))
       become: false
       ansible.builtin.debug:
-        msg:
-          "PACKAGES: {{ _umc_upgrade_summary | default('NONE UPGRADED.') }} \
+        msg: "PACKAGES: {{ _umc_upgrade_summary | default('NONE UPGRADED.') }} \
           {% if (_umc_services_to_restart | length > 0) %}SERVICES TO RESTART: {{ _umc_services_to_restart | length }} ({{ _umc_services_to_restart | join(', ') }}). {% endif %}\
           {% if _umc_reboot_needed %}REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
           {% if (not _umc_reboot_needed and (umc_services_reboot and (_umc_services_to_restart | length > 0))) %}REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"
 
     - name: Announce system reboot requirement
       when: (_umc_reboot_needed | default(False))
-            or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
+        or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
       become: false
       ansible.builtin.debug:
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
 
     - name: Reboot block
-      when: ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
-              and (umc_reboot_allowed | default(False))
+      when:
+        ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
+        and (umc_reboot_allowed | default(False))
       block:
-
         - name: Run system_reboot role
           ansible.builtin.include_role:
             name: system_reboot
