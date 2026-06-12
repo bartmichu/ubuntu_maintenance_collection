@@ -15,6 +15,7 @@
       become: false
       ansible.builtin.assert:
         that:
+          - umc_shutdown_account_name is defined
           - umc_shutdown_account_name is match("^[a-z_][a-z0-9_-]{0,31}$")
           - umc_shutdown_account_name != "root"
         fail_msg: "INVALID ACCOUNT NAME"
@@ -23,6 +24,7 @@
       become: false
       ansible.builtin.assert:
         that:
+          - umc_shutdown_account_key_path is defined
           - umc_shutdown_account_key_path | length > 0
           - lookup('ansible.builtin.fileglob', umc_shutdown_account_key_path) | length > 0
           - umc_shutdown_account_key_path is regex(".*\\.pub$")
@@ -32,6 +34,7 @@
       become: false
       ansible.builtin.assert:
         that:
+          - umc_shutdown_account_allowed_ip is defined
           - umc_shutdown_account_allowed_ip | length > 0
         fail_msg: "INVALID IP ADDRESS"
 
