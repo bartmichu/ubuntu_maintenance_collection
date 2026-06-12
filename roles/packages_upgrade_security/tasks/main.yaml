@@ -4,7 +4,7 @@
     cmd: >
       set -o pipefail &&
       /usr/bin/apt list --upgradeable  |
-      /usr/bin/grep '-security' |
+      ( /usr/bin/grep '-security' || [[ $? -eq 1 ]]) |
       /usr/bin/cut --delimiter \/ --fields 1 |
       /usr/bin/xargs /usr/bin/apt-get install --yes --only-upgrade
     executable: /bin/bash

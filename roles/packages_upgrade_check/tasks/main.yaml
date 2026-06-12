@@ -4,7 +4,7 @@
     cmd: >
       set -o pipefail &&
       /usr/bin/apt-get --simulate upgrade --verbose-versions |
-      /usr/bin/grep ^Inst |
+      ( /usr/bin/grep ^Inst || [[ $? -eq 1 ]] ) |
       /usr/bin/cut --delimiter ' ' --fields 2
     executable: /bin/bash
   # TODO: failed_when: _umc_upgrade_check.rc != 0
@@ -19,8 +19,8 @@
     cmd: >
       set -o pipefail &&
       /usr/bin/apt-get --simulate upgrade --verbose-versions |
-      /usr/bin/grep ^Inst |
-      /usr/bin/grep --ignore-case security |
+      ( /usr/bin/grep ^Inst || [[ $? -eq 1 ]] ) |
+      ( /usr/bin/grep --ignore-case security || [[ $? -eq 1 ]]) |
       /usr/bin/cut --delimiter ' ' --fields 2
     executable: /bin/bash
   # TODO: failed_when: _umc_security_upgrade_check.rc != 0
