@@ -1,12 +1,12 @@
 - name: Check for reboot-required flag file
-  become: false
   ansible.builtin.stat:
     get_checksum: false
     path: /var/run/reboot-required
-  register: _umc_reboot_sentinel_check
+  become: false
+  register: _system_reboot_check_result
 
 - name: Set host facts
-  become: false
+  # TODO: implement system_reboot_reason
   ansible.builtin.set_fact:
-    _umc_reboot_needed: "{{ True if _umc_reboot_sentinel_check.stat.exists else False }}"
-    # TODO: implement system_reboot_reason
+    _umc_reboot_needed: "{{ True if _system_reboot_check_result.stat.exists else False }}"
+  become: false

@@ -1,16 +1,16 @@
 - name: Register services which need to be restarted
-  become: true
+  # TODO: failed_when: _services_restart_check_result.rc != ???
   ansible.builtin.shell:
     cmd: >
       set -o pipefail &&
       /usr/sbin/needrestart -b -l -r l |
       /usr/bin/awk '/^NEEDRESTART-SVC/{print $2}'
     executable: /bin/bash
-  # TODO: failed_when: _umc_needrestart_check.rc != ???
+  become: true
   changed_when: false
-  register: _umc_needrestart_check
+  register: _services_restart_check_result
 
 - name: Set host facts
-  become: false
   ansible.builtin.set_fact:
-    _umc_services_to_restart: "{{ (_umc_needrestart_check.stdout_lines | default('')) | list }}"
+    _umc_services_to_restart: "{{ (_services_restart_check_result.stdout_lines | default('')) | list }}"
+  become: false

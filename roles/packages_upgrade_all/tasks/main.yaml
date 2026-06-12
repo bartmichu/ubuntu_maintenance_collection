@@ -1,11 +1,11 @@
 - name: Upgrade all installed packages
-  become: true
   ansible.builtin.apt:
     force_apt_get: true
     upgrade: "yes"
-  register: _umc_upgrade_result
+  become: true
+  register: _packages_upgrade_all_result
 
 - name: Set host facts
-  become: false
   ansible.builtin.set_fact:
-    _umc_upgrade_summary: "{{ (_umc_upgrade_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"
+    _umc_upgrade_summary: "{{ (_packages_upgrade_all_result.stdout_lines | select('search', 'upgraded,') | list)[0] }}"
+  become: false

@@ -1,5 +1,4 @@
 - name: Install needrestart releated packages
-  become: true
   ansible.builtin.apt:
     force_apt_get: false
     name:
@@ -7,3 +6,4 @@
       - needrestart
     state: present
     update_cache: false
+  become: true
