@@ -6,7 +6,7 @@
   register: _system_shutdown_result
 
 - name: Set host facts # noqa: no-handler
+  when: _system_shutdown_result.changed
   ansible.builtin.set_fact:
     _umc_shutdown_successfull: "{{ True if (_system_shutdown_result.shutdown == true) else False }}"
   become: false
-  when: _system_shutdown_result.changed

@@ -5,7 +5,7 @@
   register: _system_reboot_result
 
 - name: Set host facts # noqa: no-handler
+  when: _system_reboot_result.changed
   ansible.builtin.set_fact:
     _umc_reboot_successfull: "{{ True if (_system_reboot_result.rebooted == true) else False }}"
   become: false
-  when: _system_reboot_result.changed

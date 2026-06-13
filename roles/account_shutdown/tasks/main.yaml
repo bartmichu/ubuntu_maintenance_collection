@@ -96,9 +96,9 @@
       register: _account_shutdown_template_result
 
     - name: Restart SSH server # noqa: no-handler
+      when: _account_shutdown_template_result.changed
       ansible.builtin.systemd_service:
         enabled: true
         name: "{{ 'ssh.socket' if 'ssh.socket' in ansible_facts.services else 'sshd.service' }}"
         state: restarted
       become: true
-      when: _account_shutdown_template_result.changed
