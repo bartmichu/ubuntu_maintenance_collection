@@ -17,16 +17,14 @@ tags:
     "security",
     "ssh",
   ]
-
 repository: https://github.com/bartmichu/ubuntu_maintenance_collection.git
 documentation: https://github.com/bartmichu/ubuntu_maintenance_collection
 homepage: https://github.com/bartmichu/ubuntu_maintenance_collection
 issues: https://github.com/bartmichu/ubuntu_maintenance_collection/issues
 readme: README.md
-
 dependencies: {}
 build_ignore: []
-
-license: [MIT]
+license:
+  - MIT-0
 authors:
   - Michał Bartkowiak <bartmichu@gmail.com>
