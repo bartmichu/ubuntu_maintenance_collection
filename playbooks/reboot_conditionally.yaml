@@ -1,12 +1,12 @@
 - name: Ubuntu Maintenance Collection - Reboot if needed and allowed
-  hosts: all
   gather_facts: true
+  hosts: all
 
   tasks:
     - name: Gather the package facts
-      become: false
       ansible.builtin.package_facts:
         manager: apt
+      become: false
 
     - name: Installation block
       when: "'needrestart' not in ansible_facts.packages"
@@ -29,16 +29,16 @@
         name: services_restart_check
 
     - name: Ensure that required facts are defined outside Jinja
-      become: false
       ansible.builtin.set_fact:
         umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
+      become: false
 
     - name: Display reboot requirement status
       when: (_umc_reboot_needed | default(False))
         or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
-      become: false
       ansible.builtin.debug:
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
+      become: false
 
     - name: Reboot block
       when:
@@ -50,7 +50,7 @@
             name: system_reboot
 
         - name: Confirm successful system reboot
-          become: false
           ansible.builtin.debug:
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
+          become: false
           failed_when: not (_umc_reboot_successfull | default(False))

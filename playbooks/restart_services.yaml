@@ -1,12 +1,12 @@
 - name: Ubuntu Maintenance Collection - Restart services
-  hosts: all
   gather_facts: true
+  hosts: all
 
   tasks:
     - name: Gather the package facts
-      become: false
       ansible.builtin.package_facts:
         manager: apt
+      become: false
 
     - name: Installation block
       when: "'needrestart' not in ansible_facts.packages"
@@ -24,15 +24,15 @@
         name: services_restart_check
 
     - name: Store initial list of services needing restart
-      become: false
       ansible.builtin.set_fact:
         _umc_needrestart_first_check: "{{ _umc_services_to_restart }}"
+      become: false
 
     - name: Display services that need to be restarted
       when: _umc_needrestart_first_check | length > 0
-      become: false
       ansible.builtin.debug:
         msg: "SERVICES TO RESTART: {{ _umc_needrestart_first_check | length }} ({{ _umc_needrestart_first_check | join(', ') }})"
+      become: false
 
     - name: Run services_restart role
       when: (umc_services_restart_allowed | default(False)) and (_umc_needrestart_first_check | length > 0)
@@ -47,25 +47,25 @@
 
     - name: Store updated list of services still needing restart
       when: _umc_needrestart_first_check | length > 0
-      become: false
       ansible.builtin.set_fact:
         _umc_needrestart_second_check: "{{ _umc_services_to_restart }}"
+      become: false
 
     - name: Display services that were not restarted
       when: (_umc_needrestart_second_check | default([])) | length > 0
-      become: false
       ansible.builtin.debug:
         msg: "SERVICES STILL TO RESTART: {{ _umc_needrestart_second_check | length }} ({{ _umc_needrestart_second_check | join(', ') }})"
+      become: false
 
     - name: Ensure that required facts are defined outside Jinja
-      become: false
       ansible.builtin.set_fact:
         umc_services_restart_allowed: "{{ umc_services_restart_allowed | default(False) }}"
+      become: false
 
     - name: Display restart summary
       when: _umc_needrestart_first_check | length > 0
-      become: false
       ansible.builtin.debug:
         msg:
           "RESTARTED SERVICES: {{ ((_umc_needrestart_first_check | length) - (_umc_needrestart_second_check | length)) if umc_services_restart_allowed else 0 }}
           / {{ _umc_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if umc_services_restart_allowed == False else '' }}"
+      become: false

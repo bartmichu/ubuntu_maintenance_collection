@@ -1,6 +1,6 @@
 - name: Ubuntu Maintenance Collection - Shutdown unconditionally
-  hosts: all
   gather_facts: true
+  hosts: all
 
   tasks:
     - name: Run system_shutdown role
@@ -8,7 +8,7 @@
         name: system_shutdown
 
     - name: Confirm successful system shutdown
-      become: false
       ansible.builtin.debug:
         msg: "SYSTEM WAS SUCCESSFULLY SHUTDOWN"
+      become: false
       failed_when: not (_umc_shutdown_successfull | default(False))

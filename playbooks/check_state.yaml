@@ -1,12 +1,12 @@
 - name: Ubuntu Maintenance Collection - Check system state
-  hosts: all
   gather_facts: true
+  hosts: all
 
   tasks:
     - name: Gather the package facts
-      become: false
       ansible.builtin.package_facts:
         manager: apt
+      become: false
 
     - name: Run packages_update_cache role
       ansible.builtin.include_role:
@@ -30,10 +30,10 @@
         name: system_reboot_check
 
     - name: Ensure that required facts are defined outside Jinja
-      become: false
       ansible.builtin.set_fact:
         umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
         umc_services_reboot: "{{ umc_services_reboot | default(False) }}"
+      become: false
 
     - name: Display system update and service restart summary
       when: (_umc_upgradeable_packages_security | length > 0)
@@ -41,7 +41,6 @@
         or ((_umc_services_to_restart | length) > 0)
         or (_umc_reboot_needed)
         or (umc_services_reboot and (_umc_services_to_restart | length > 0))
-      become: false
       ansible.builtin.debug:
         msg: "{% if (_umc_upgradeable_packages_security | length > 0) %}\
           PENDING SECURITY UPGRADES: {{ _umc_upgradeable_packages_security | length }} ({{ _umc_upgradeable_packages_security | join(', ') }}). {% endif %}\
@@ -53,3 +52,4 @@
           REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}. {% endif %}\
           {% if (not _umc_reboot_needed and umc_services_reboot and (_umc_services_to_restart | length > 0)) %}\
           REBOOT IS NEEDED {{ 'AND ALLOWED' if umc_reboot_allowed else 'BUT NOT ALLOWED' }}.{% endif %}"
+      become: false

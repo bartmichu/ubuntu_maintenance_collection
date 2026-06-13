@@ -1,6 +1,6 @@
 - name: Ubuntu Maintenance Collection - Bootstrap ansible managed host
-  hosts: all
   gather_facts: true
+  hosts: all
 
   vars_prompt:
     - name: umc_ansible_account_name_answer
@@ -32,83 +32,82 @@
 
   tasks:
     - name: Gather the service facts
-      become: false
       ansible.builtin.service_facts:
+      become: false
 
     - name: Set host facts
-      become: false
       ansible.builtin.set_fact:
         umc_ansible_account_allowed_ip: "{{ umc_ansible_account_allowed_ip_answer | trim }}"
         umc_ansible_account_authentication_required: "{{ umc_ansible_account_authentication_required_answer | trim | bool }}"
         umc_ansible_account_key_path: "{{ umc_ansible_account_key_path_answer | trim }}"
         umc_ansible_account_name: "{{ umc_ansible_account_name_answer | trim }}"
         umc_ansible_account_password: "{{ umc_ansible_account_password_answer | string | password_hash('sha512') }}"
+      become: false
       no_log: true
 
     - name: Validatation block
       block:
         - name: Validate account name
-          become: false
           ansible.builtin.assert:
             that:
               - umc_ansible_account_name is match("^[a-z_][a-z0-9_-]{0,31}$")
               - umc_ansible_account_name != "root"
             fail_msg: "INVALID ACCOUNT NAME"
+          become: false
 
         - name: Validate password
-          become: false
           ansible.builtin.assert:
             that:
               - umc_ansible_account_password_answer | length > 0
               - umc_ansible_account_password | length > 0
             fail_msg: "INVALID PASSWORD"
+          become: false
           no_log: true
 
         - name: Validate key path
-          become: false
           ansible.builtin.assert:
             that:
               - umc_ansible_account_key_path | length > 0
               - lookup('ansible.builtin.fileglob', umc_ansible_account_key_path) | length > 0
               - umc_ansible_account_key_path is regex(".*\\.pub$")
             fail_msg: "INVALID KEY PATH"
+          become: false
 
         - name: Validate trusted IP
-          become: false
           ansible.builtin.assert:
             that:
               - umc_ansible_account_allowed_ip | length > 0
             fail_msg: "INVALID IP ADDRESS"
+          become: false
 
     - name: Account block
       block:
         - name: Add dedicated user account
-          become: true
           ansible.builtin.user:
             name: "{{ umc_ansible_account_name }}"
             password: "{{ umc_ansible_account_password }}"
             shell: /bin/bash
+          become: true
           no_log: true
 
         - name: Set up authorized key
-          become: true
           ansible.posix.authorized_key:
             exclusive: true
             key: "{{ lookup('ansible.builtin.file', umc_ansible_account_key_path) }}"
             state: present
             user: "{{ umc_ansible_account_name }}"
+          become: true
 
     - name: Sudo block
       block:
         - name: Install sudo package
-          become: true
           ansible.builtin.package:
             name:
               - sudo
             state: present
+          become: true
 
         - name: Add sudo configuration file
-          become: true
           ansible.builtin.template:
             backup: false
             dest: "/etc/sudoers.d/account-ansible-{{ umc_ansible_account_name }}"
@@ -118,11 +117,11 @@
             owner: root
             src: account-ansible-sudoers.j2
             validate: /usr/sbin/visudo -cf %s
+          become: true
 
     - name: SSH Server block
       block:
         - name: Add SSH configuration file
-          become: true
           ansible.builtin.template:
             backup: false
             dest: "/etc/ssh/sshd_config.d/account-ansible-{{ umc_ansible_account_name }}.conf"
@@ -132,12 +131,14 @@
             owner: root
             src: account-ansible-sshd.conf.j2
             validate: /usr/sbin/sshd -t -f %s
+          become: true
           register: _umc_ssh_result
 
         - name: Restart SSH server # noqa: no-handler
+          # TODO: add handler
           when: _umc_ssh_result.changed
-          become: true
           ansible.builtin.systemd_service:
             enabled: true
             name: "{{ 'ssh.socket' if 'ssh.socket' in ansible_facts.services else 'sshd.service' }}"
             state: restarted
+          become: true

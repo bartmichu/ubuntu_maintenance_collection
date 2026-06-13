@@ -1,6 +1,6 @@
 - name: Ubuntu Maintenance Collection - Reboot unconditionally
-  hosts: all
   gather_facts: true
+  hosts: all
 
   tasks:
     - name: Run system_reboot role
@@ -8,7 +8,7 @@
         name: system_reboot
 
     - name: Confirm successful system reboot
-      become: false
       ansible.builtin.debug:
         msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
+      become: false
       failed_when: not (_umc_reboot_successfull | default(False))
