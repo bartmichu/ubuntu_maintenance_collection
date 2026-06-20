@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance Collection - Add dedicated shutdown account
+- name: Ubuntu Maintenance - Add dedicated shutdown account
   gather_facts: true
   hosts: all
 

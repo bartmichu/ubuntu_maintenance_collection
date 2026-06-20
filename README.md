@@ -1,4 +1,4 @@
-# bartmichu.ubuntu_maintenance - Ubuntu Maintenance Collection
+# bartmichu.ubuntu_maintenance - Ubuntu Maintenance
 
 This Ansible Collection provides playbooks for managing Ubuntu systems, including package upgrades, service restarts, and system reboots. These playbooks are designed to be modular and reusable, leveraging Ansible roles for specific tasks.
 

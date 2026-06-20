@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance Collection - Reboot unconditionally
+- name: Ubuntu Maintenance - Reboot unconditionally
   gather_facts: true
   hosts: all
 

@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance Collection - Install security upgrades
+- name: Ubuntu Maintenance - Install security upgrades
   gather_facts: true
   hosts: all
 
