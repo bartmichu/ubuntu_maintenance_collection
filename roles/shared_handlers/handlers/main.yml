@@ -1,4 +1,4 @@
-- name: Restart ssh
+- name: "UM: Restart ssh"
   ansible.builtin.systemd:
     name: "{{ 'ssh.socket' if 'ssh.socket' in ansible_facts.services else 'sshd.service' }}"
     state: restarted

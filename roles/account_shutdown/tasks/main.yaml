@@ -1,3 +1,8 @@
+- name: Import shared handlers
+  ansible.builtin.import_role:
+    name: bartmichu.ubuntu_maintenance.shared_handlers
+  tags: always
+
 - name: Gather the service facts
   ansible.builtin.service_facts:
   become: false
@@ -82,7 +87,6 @@
 - name: SSH block
   block:
     - name: Add SSH configuration file
-      # TODO: add handler
       ansible.builtin.template:
         backup: false
         dest: "/etc/ssh/sshd_config.d/account-shutdown-{{ umc_shutdown_account_name }}.conf"
@@ -93,4 +97,4 @@
         src: account-shutdown.conf.j2
         validate: /usr/sbin/sshd -t -f %s
       become: true
-      notify: Restart ssh
+      notify: "UM: Restart ssh"
