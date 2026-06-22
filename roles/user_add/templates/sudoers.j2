@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+# CAUTION: Any syntax error introduced here can break sudo.
+
+# Allow user account to perform administrative tasks
+{% if user_add_passwordless_sudo %}
+{{ user_add_name }} ALL=(root) NOPASSWD: ALL
+{% else %}
+{{ user_add_name }} ALL=(root) PASSWD: ALL
+{% endif %}

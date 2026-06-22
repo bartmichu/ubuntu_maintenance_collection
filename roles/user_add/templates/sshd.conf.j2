@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+Match User {{ user_add_name }}
+  #Banner none
+  #LogLevel VERBOSE
+  AllowAgentForwarding {{ 'yes' if user_add_allow_forwarding else 'no' }}
+  AllowTcpForwarding {{ 'yes' if user_add_allow_forwarding else 'no' }}
+  AllowUsers *@{{ user_add_allowed_ip }}
+  AuthenticationMethods publickey
+  GatewayPorts {{ 'clientspecified' if user_add_allow_forwarding else 'no' }}
+  MaxAuthTries 4
+  PasswordAuthentication {{ 'yes' if user_add_allow_forwarding else 'no' }}
+  PermitTTY {{ 'yes' if user_add_permit_tty else 'no' }}
+  PermitTunnel {{ 'yes' if user_add_allow_forwarding else 'no' }}
+  X11Forwarding no
