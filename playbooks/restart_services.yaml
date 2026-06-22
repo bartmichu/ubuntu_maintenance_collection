@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance - Restart services
+- name: Ubuntu Maintenance Collection - Restart services
   gather_facts: true
   hosts: all
 

@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance - Reboot if needed and allowed
+- name: Ubuntu Maintenance Collection - Reboot if needed and allowed
   gather_facts: true
   hosts: all
 

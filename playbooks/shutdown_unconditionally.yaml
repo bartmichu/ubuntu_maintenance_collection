@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance - Shutdown unconditionally
+- name: Ubuntu Maintenance Collection - Shutdown unconditionally
   gather_facts: true
   hosts: all
 

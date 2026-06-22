@@ -1,4 +1,4 @@
-- name: Ubuntu Maintenance - Bootstrap ansible managed host
+- name: Ubuntu Maintenance Collection - Bootstrap ansible managed host
   gather_facts: true
   hosts: all
 
