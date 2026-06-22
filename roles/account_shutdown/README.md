@@ -20,16 +20,14 @@ Ideal for automation tasks or remote-controlled shutdown scenarios.
 
 ## Requirements
 
-- Target hosts must be Ubuntu systems.
-
 - Ansible must be able to execute commands with `become` privileges.
 
 ## Role Variables
 
 This role uses the following variables:
 
-- `umc_shutdown_account_name`: The desired username for the shutdown account (cannot be "root").
+- `umc_shutdown_account_name`: The desired username for the shutdown account (cannot be "root"). Defaults to: `""`, which is not a valid value.
 
-- `umc_shutdown_account_key_path`: The absolute path to the public key (`.pub` file) that will be authorized for this account.
+- `umc_shutdown_account_key_path`: The absolute path to the public key (`.pub` file) that will be authorized for this account. Defaults to: `""`, which is not a valid value.
 
-- `umc_shutdown_account_allowed_ip`: The IP address from which this account is permitted to connect via SSH.
+- `umc_shutdown_account_allowed_ip`: The IP address from which this account is permitted to connect via SSH. Defaults to: `"*"`.
