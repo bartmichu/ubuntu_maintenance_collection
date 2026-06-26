@@ -7,7 +7,7 @@ This playbook performs an unconditional system reboot on Ubuntu systems.  It's a
 - Target hosts must be Ubuntu systems.
 
 - This playbook relies on the following roles:
-  - `system_reboot`
+  - `umc_system_reboot`
 
 ## Variables
 

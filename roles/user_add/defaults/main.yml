@@ -1,9 +1,0 @@
-user_add_allow_forwarding: false
-user_add_allowed_ip: "*"
-user_add_is_admin: false
-user_add_key_is_exclusive: false
-user_add_key_path: ""
-user_add_name: ""
-user_add_password: ""
-user_add_passwordless_sudo: false
-user_add_permit_tty: true

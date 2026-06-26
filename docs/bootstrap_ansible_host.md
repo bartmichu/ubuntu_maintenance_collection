@@ -1,4 +1,4 @@
-# bootstrap_ansible_host playbook
+# bootstrap_ansible_user playbook
 
 This playbook automates the bootstrapping of an Ubuntu managed host, configuring a dedicated user account, SSH access, and sudo permissions. It's designed to be run on newly provisioned servers before they are fully integrated into your Ansible infrastructure.
 
@@ -15,13 +15,13 @@ ssh-keygen -t ed25519 -f ~/.ssh/keyfile
 Examples:
 
 ```shell
-ansible-playbook --key-file ~/.ssh/keyfile --inventory "root@10.0.0.2," bootstrap_ansible_host.yaml
+ansible-playbook --key-file ~/.ssh/keyfile --inventory "root@10.0.0.2," bootstrap_ansible_user.yaml
 
-ansible-playbook --ask-pass --inventory "root@10.0.0.1," bootstrap_ansible_host.yaml --extra-vars "@bootstrap_vars.yaml"
+ansible-playbook --ask-pass --inventory "root@10.0.0.1," bootstrap_ansible_user.yaml --extra-vars "@bootstrap_vars.yaml"
 
-ansible-playbook --ask-become-pass --key-file ~/.ssh/keyfile --inventory "hostname," bootstrap_ansible_host.yaml
+ansible-playbook --ask-become-pass --key-file ~/.ssh/keyfile --inventory "hostname," bootstrap_ansible_user.yaml
 
-ansible-playbook --ask-pass --ask-become-pass --inventory "username@10.0.0.1," bootstrap_ansible_host.yaml
+ansible-playbook --ask-pass --ask-become-pass --inventory "username@10.0.0.1," bootstrap_ansible_user.yaml
 ```
 
 ## Requirements
@@ -32,15 +32,15 @@ ansible-playbook --ask-pass --ask-become-pass --inventory "username@10.0.0.1," b
 
 The playbook uses the following variables, which are prompted from the user:
 
-- `umc_ansible_account_name_answer`: The name of the new user account. It's required to use a name other than `root`. Defaults to: `ansible`.
+- `umc_ansible_user_name_answer`: The name of the new user account. It's required to use a name other than `root`. Defaults to: `ansible`.
 
-- `umc_ansible_account_password_answer`: The password for the new user account. Defaults to: random string.
+- `umc_ansible_user_password_answer`: The password for the new user account. Defaults to: random string.
 
-- `umc_ansible_account_key_path_answer`: The path to the public SSH key file (`.pub`) that will be used for SSH authentication.
+- `umc_ansible_user_key_path_answer`: The path to the public SSH key file (`.pub`) that will be used for SSH authentication.
 
-- `umc_ansible_account_authentication_required_answer`: Whether to require user authentication before running root commands. Defaults to: `True`.
+- `umc_ansible_user_authentication_required_answer`: Whether to require user authentication before running root commands. Defaults to: `true`.
 
-- `umc_ansible_account_allowed_ip_answer`: The IP address allowed for SSH access. Use * to allow all IPs (less secure, use with caution). Defaults to: `*`.
+- `umc_ansible_user_allowed_ip_answer`: The IP address allowed for SSH access. Use * to allow all IPs (less secure, use with caution). Defaults to: `*`.
 
 ## Templates
 

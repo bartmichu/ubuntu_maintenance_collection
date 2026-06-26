@@ -1,0 +1,18 @@
+- name: Define globals if needed
+  ansible.builtin.set_fact:
+    umc_global_allow_reboot: "{{ umc_global_allow_reboot | default(false, true) }}"
+    umc_global_allow_services_restart: "{{ umc_global_allow_services_restart | default(false, true) }}"
+    umc_global_services_require_reboot: "{{ umc_global_services_require_reboot | default(false, true) }}"
+  become: false
+
+- name: Validate globals
+  ansible.builtin.assert:
+    fail_msg: "VALIDATION FAILED: '{{ item }}'"
+    that:
+      - vars[item] is defined
+      - vars[item] | type_debug == 'bool'
+  become: false
+  loop:
+    - umc_global_allow_reboot
+    - umc_global_allow_services_restart
+    - umc_global_services_require_reboot

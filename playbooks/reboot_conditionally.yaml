@@ -3,6 +3,12 @@
   hosts: all
 
   tasks:
+    - name: Ensure that required variables are defined outside Jinja
+      ansible.builtin.import_role:
+        name: bartmichu.ubuntu_maintenance._umc_validate_globals
+      become: false
+      tags: always
+
     - name: Gather the package facts
       ansible.builtin.package_facts:
         manager: apt
@@ -11,46 +17,41 @@
     - name: Installation block
       when: "'needrestart' not in ansible_facts.packages"
       block:
-        - name: Run packages_update_cache role
+        - name: Run umc_packages_update_cache role
           ansible.builtin.include_role:
-            name: packages_update_cache
+            name: umc_packages_update_cache
 
-        - name: Run packages_needrestart role
+        - name: Run umc_packages_needrestart role
           ansible.builtin.include_role:
-            name: packages_needrestart
+            name: umc_packages_needrestart
 
-    - name: Run system_reboot_check role
+    - name: Run umc_system_reboot_check role
       ansible.builtin.include_role:
-        name: system_reboot_check
+        name: umc_system_reboot_check
 
-    - name: Run services_restart_check role
-      when: umc_services_reboot | default(False)
+    - name: Run umc_services_restart_check role
+      when: umc_global_services_require_reboot | default(false)
       ansible.builtin.include_role:
-        name: services_restart_check
-
-    - name: Ensure that required facts are defined outside Jinja
-      ansible.builtin.set_fact:
-        umc_reboot_allowed: "{{ umc_reboot_allowed | default(False) }}"
-      become: false
+        name: umc_services_restart_check
 
     - name: Display reboot requirement status
-      when: (_umc_reboot_needed | default(False))
-        or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0))
+      when: (_umc_global_reboot_needed | default(false))
+        or ((umc_global_services_require_reboot | default(false)) and ((_umc_global_services_to_restart | default([])) | length > 0))
       ansible.builtin.debug:
-        msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_reboot_allowed == False }}"
+        msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_global_allow_reboot == false }}"
       become: false
 
     - name: Reboot block
       when:
-        ((_umc_reboot_needed | default(False)) or ((umc_services_reboot | default(False)) and ((_umc_services_to_restart | default([])) | length > 0)))
-        and (umc_reboot_allowed | default(False))
+        ((_umc_global_reboot_needed | default(false)) or ((umc_global_services_require_reboot | default(false)) and ((_umc_global_services_to_restart | default([])) | length > 0)))
+        and umc_global_allow_reboot
       block:
-        - name: Run system_reboot role
+        - name: Run umc_system_reboot role
           ansible.builtin.include_role:
-            name: system_reboot
+            name: umc_system_reboot
 
         - name: Confirm successful system reboot
           ansible.builtin.debug:
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
           become: false
-          failed_when: not (_umc_reboot_successfull | default(False))
+          failed_when: not (_umc_global_reboot_successfull | default(false))

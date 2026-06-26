@@ -1,2 +1,0 @@
-umc_shutdown_delay: 0
-umc_shutdown_message: "System shutting down, initiated by Ansible."

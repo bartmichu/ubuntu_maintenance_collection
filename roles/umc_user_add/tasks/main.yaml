@@ -1,0 +1,117 @@
+- name: Import shared handlers
+  ansible.builtin.import_role:
+    name: bartmichu.ubuntu_maintenance.umc_shared_handlers
+  tags: always
+
+- name: Gather the service facts
+  ansible.builtin.service_facts:
+  become: false
+
+- name: Validatation block
+  block:
+    - name: Validate account name
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: umc_user_add_name"
+        that:
+          - umc_user_add_name is defined
+          - umc_user_add_name|length > 0
+          - umc_user_add_name is match("^[a-z_][a-z0-9_-]{0,31}$")
+          - umc_user_add_name|lower != "root"
+      become: false
+
+    - name: Validate password
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: umc_user_add_password"
+        that:
+          - umc_user_add_password is defined
+          - umc_user_add_password|length > 0
+      become: false
+      no_log: true
+
+    - name: Validate key path
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: umc_user_add_key_path"
+        that:
+          - umc_user_add_key_path is defined
+          - umc_user_add_key_path|length > 0
+          - lookup('ansible.builtin.fileglob', umc_user_add_key_path)|length > 0
+          - umc_user_add_key_path is regex(".*\\.pub$")
+      become: false
+
+    - name: Validate trusted IP
+      # TODO: improve IP validation
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: umc_user_add_allowed_ip"
+        that:
+          - umc_user_add_allowed_ip is defined
+          - umc_user_add_allowed_ip|length > 0
+      become: false
+
+    - name: Validate Boolean variables
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: '{{ item }}'"
+        that:
+          - vars[item] is defined
+          - vars[item] | type_debug == 'bool'
+      become: false
+      loop:
+        - umc_user_add_allow_forwarding
+        - umc_user_add_is_admin
+        - umc_user_add_key_is_exclusive
+        - umc_user_add_passwordless_sudo
+        - umc_user_add_permit_tty
+
+- name: User account block
+  block:
+    - name: Add dedicated user account
+      ansible.builtin.user:
+        name: "{{ umc_user_add_name }}"
+        password: "{{ umc_user_add_password }}"
+        shell: /bin/bash
+      become: true
+      no_log: true
+
+    - name: Set up authorized key
+      ansible.posix.authorized_key:
+        exclusive: "{{ umc_user_add_key_is_exclusive }}"
+        key: "{{ lookup('ansible.builtin.file', umc_user_add_key_path) }}"
+        state: present
+        user: "{{ umc_user_add_name }}"
+      become: true
+
+- name: Sudo block
+  when: umc_user_add_is_admin is true
+  block:
+    - name: Install sudo package
+      ansible.builtin.package:
+        name:
+          - sudo
+        state: present
+      become: true
+
+    - name: Add sudo configuration file
+      ansible.builtin.template:
+        backup: false
+        dest: "/etc/sudoers.d/user-{{ umc_user_add_name }}"
+        force: true
+        group: root
+        mode: "0440"
+        owner: root
+        src: sudoers.j2
+        validate: /usr/sbin/visudo -cf %s
+      become: true
+
+- name: SSH Server block
+  block:
+    - name: Add SSH configuration file
+      ansible.builtin.template:
+        backup: true
+        dest: "/etc/ssh/sshd_config.d/user-{{ umc_user_add_name }}.conf"
+        force: true
+        group: root
+        mode: "0640"
+        owner: root
+        src: sshd.conf.j2
+        validate: /usr/sbin/sshd -t -f %s
+      become: true
+      notify: "UMC: Restart ssh"

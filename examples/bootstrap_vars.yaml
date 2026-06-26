@@ -1,5 +1,5 @@
-umc_ansible_account_name_answer: ansible
-umc_ansible_account_password_answer: ChangeMePlease
-umc_ansible_account_key_path_answer: ~/.ssh/key.pub
-umc_ansible_account_authentication_required_answer: true
-umc_ansible_account_allowed_ip_answer: "*"
+umc_ansible_user_name_answer: ansible
+umc_ansible_user_password_answer: ChangeMePlease
+umc_ansible_user_key_path_answer: ~/.ssh/key.pub
+umc_ansible_user_authentication_required_answer: true
+umc_ansible_user_allowed_ip_answer: "*"

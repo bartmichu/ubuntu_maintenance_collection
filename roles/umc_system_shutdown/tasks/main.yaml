@@ -1,0 +1,12 @@
+- name: Shutdown system
+  community.general.shutdown:
+    delay: "{{ umc_system_shutdown_delay }}"
+    msg: "{{ umc_system_shutdown_message }}"
+  become: true
+  register: _umc_system_shutdown_result
+
+- name: Set host facts # noqa: no-handler
+  when: _umc_system_shutdown_result.changed
+  ansible.builtin.set_fact:
+    _umc_global_shutdown_successfull: "{{ true if (_umc_system_shutdown_result.shutdown == true) else false }}"
+  become: false

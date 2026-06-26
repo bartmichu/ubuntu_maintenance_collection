@@ -9,7 +9,7 @@ Use it with caution, as it will shut down the target systems regardless of their
 - Target hosts must be Ubuntu systems.
 
 - This playbook relies on the following roles:
-  - `system_shutdown`
+  - `umc_system_shutdown`
 
 ## Variables
 

@@ -19,17 +19,14 @@ ansible-galaxy collection install bartmichu.ubuntu_maintenance
 
 This collection includes the following playbooks:
 
-* `account_shutdown.yaml`
-  Creates a dedicated, restricted user account designed solely for initiating system shutdowns via SSH.
-
-* `bootstrap_ansible_host.yaml`
+* `bootstrap_ansible_user.yaml`
   Performs automated bootstrapping of an Ansible-managed host.
 
 * `check_state.yaml`
   Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. (See `docs/check_state.md` for more details).
 
 * `reboot_conditionally.yaml`
-  Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `umc_reboot_allowed` variable. (See `docs/reboot_conditionally.md` for more details).
+  Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `umc_global_allow_reboot` variable. (See `docs/reboot_conditionally.md` for more details).
 
 * `reboot_unconditionally.yaml`
   Performs an unconditional system reboot. Use with caution! (See `docs/reboot_unconditionally.md` for more details).
@@ -55,7 +52,7 @@ See the individual role directories for their respective `README.md` files for m
 
 ## Variables
 
-Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `umc_reboot_allowed`, which controls whether reboots are permitted, as well as `umc_services_reboot` and `umc_services_restart_allowed`.
+Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `umc_global_allow_reboot`, which controls whether reboots are permitted, as well as `umc_global_services_require_reboot` and `umc_global_allow_services_restart`.
 
 ## License
 

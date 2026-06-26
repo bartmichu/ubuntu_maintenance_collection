@@ -3,12 +3,12 @@
   hosts: all
 
   tasks:
-    - name: Run system_reboot role
+    - name: Run umc_system_reboot role
       ansible.builtin.include_role:
-        name: system_reboot
+        name: umc_system_reboot
 
     - name: Confirm successful system reboot
       ansible.builtin.debug:
         msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
       become: false
-      failed_when: not (_umc_reboot_successfull | default(False))
+      failed_when: not (_umc_global_reboot_successfull | default(false))

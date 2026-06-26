@@ -1,0 +1,141 @@
+- name: Ubuntu Maintenance Collection - Bootstrap ansible managed host
+  # TODO: refector with umc_user_add role
+  gather_facts: true
+  hosts: all
+
+  vars_prompt:
+    - name: umc_ansible_user_name_answer
+      default: "ansible"
+      private: false
+      prompt: "New account name"
+
+    - name: umc_ansible_user_password_answer
+      confirm: true
+      default: "{{ lookup('ansible.builtin.password', '/dev/null length=20') }}"
+      private: true
+      prompt: "New account password"
+      unsafe: true
+
+    - name: umc_ansible_user_key_path_answer
+      default: ""
+      private: false
+      prompt: "Public key path (.pub)"
+
+    - name: umc_ansible_user_authentication_required_answer
+      default: "{{ true | string }}"
+      private: false
+      prompt: "Require user authentication before running root commands? (true/false)"
+
+    - name: umc_ansible_user_allowed_ip_answer
+      default: "*"
+      private: false
+      prompt: "Allowed IP address for SSH"
+
+  tasks:
+    - name: Import shared handlers
+      ansible.builtin.import_role:
+        name: bartmichu.ubuntu_maintenance.umc_shared_handlers
+      tags: always
+
+    - name: Gather the service facts
+      ansible.builtin.service_facts:
+      become: false
+
+    - name: Set host facts
+      ansible.builtin.set_fact:
+        umc_ansible_user_allowed_ip: "{{ umc_ansible_user_allowed_ip_answer | trim }}"
+        umc_ansible_user_authentication_required: "{{ umc_ansible_user_authentication_required_answer | trim | bool }}"
+        umc_ansible_user_key_path: "{{ umc_ansible_user_key_path_answer | trim }}"
+        umc_ansible_user_name: "{{ umc_ansible_user_name_answer | trim }}"
+        umc_ansible_user_password: "{{ umc_ansible_user_password_answer | string | password_hash('sha512') }}"
+      become: false
+      no_log: true
+
+    - name: Validatation block
+      block:
+        - name: Validate account name
+          ansible.builtin.assert:
+            that:
+              - umc_ansible_user_name is match("^[a-z_][a-z0-9_-]{0,31}$")
+              - umc_ansible_user_name != "root"
+            fail_msg: "INVALID ACCOUNT NAME"
+          become: false
+
+        - name: Validate password
+          ansible.builtin.assert:
+            that:
+              - umc_ansible_user_password_answer | length > 0
+              - umc_ansible_user_password | length > 0
+            fail_msg: "INVALID PASSWORD"
+          become: false
+          no_log: true
+
+        - name: Validate key path
+          ansible.builtin.assert:
+            that:
+              - umc_ansible_user_key_path | length > 0
+              - lookup('ansible.builtin.fileglob', umc_ansible_user_key_path) | length > 0
+              - umc_ansible_user_key_path is regex(".*\\.pub$")
+            fail_msg: "INVALID KEY PATH"
+          become: false
+
+        - name: Validate trusted IP
+          ansible.builtin.assert:
+            that:
+              - umc_ansible_user_allowed_ip | length > 0
+            fail_msg: "INVALID IP ADDRESS"
+          become: false
+
+    - name: Account block
+      block:
+        - name: Add dedicated user account
+          ansible.builtin.user:
+            name: "{{ umc_ansible_user_name }}"
+            password: "{{ umc_ansible_user_password }}"
+            shell: /bin/bash
+          become: true
+          no_log: true
+
+        - name: Set up authorized key
+          ansible.posix.authorized_key:
+            exclusive: true
+            key: "{{ lookup('ansible.builtin.file', umc_ansible_user_key_path) }}"
+            state: present
+            user: "{{ umc_ansible_user_name }}"
+          become: true
+
+    - name: Sudo block
+      block:
+        - name: Install sudo package
+          ansible.builtin.package:
+            name:
+              - sudo
+            state: present
+          become: true
+
+        - name: Add sudo configuration file
+          ansible.builtin.template:
+            backup: false
+            dest: "/etc/sudoers.d/account-ansible-{{ umc_ansible_user_name }}"
+            force: true
+            group: root
+            mode: "0440"
+            owner: root
+            src: account-ansible-sudoers.j2
+            validate: /usr/sbin/visudo -cf %s
+          become: true
+
+    - name: SSH Server block
+      block:
+        - name: Add SSH configuration file
+          ansible.builtin.template:
+            backup: false
+            dest: "/etc/ssh/sshd_config.d/account-ansible-{{ umc_ansible_user_name }}.conf"
+            force: true
+            group: root
+            mode: "0640"
+            owner: root
+            src: account-ansible-sshd.conf.j2
+            validate: /usr/sbin/sshd -t -f %s
+          become: true
+          notify: "UMC: Restart ssh"

@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
-Match User {{ umc_ansible_account_name }}
-  AllowUsers *@{{ umc_ansible_account_allowed_ip }}
+Match User {{ umc_ansible_user_name }}
+  AllowUsers *@{{ umc_ansible_user_allowed_ip }}
   AuthenticationMethods publickey
   Banner none
   GatewayPorts no

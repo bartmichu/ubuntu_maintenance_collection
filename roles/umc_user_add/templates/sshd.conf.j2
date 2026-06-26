@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+Match User {{ umc_user_add_name }}
+  #Banner none
+  #LogLevel VERBOSE
+  AllowAgentForwarding {{ 'yes' if umc_user_add_allow_forwarding else 'no' }}
+  AllowTcpForwarding {{ 'yes' if umc_user_add_allow_forwarding else 'no' }}
+  AllowUsers *@{{ umc_user_add_allowed_ip }}
+  AuthenticationMethods publickey
+  GatewayPorts {{ 'clientspecified' if umc_user_add_allow_forwarding else 'no' }}
+  MaxAuthTries 4
+  PasswordAuthentication {{ 'yes' if umc_user_add_allow_forwarding else 'no' }}
+  PermitTTY {{ 'yes' if umc_user_add_permit_tty else 'no' }}
+  PermitTunnel {{ 'yes' if umc_user_add_allow_forwarding else 'no' }}
+  X11Forwarding no
