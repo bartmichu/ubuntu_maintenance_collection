@@ -9,8 +9,8 @@
   ansible.builtin.assert:
     fail_msg: "VALIDATION FAILED: '{{ item }}'"
     that:
-      - vars[item] is defined
-      - vars[item] | type_debug == 'bool'
+      - lookup('vars', item, default=None) is not none
+      - lookup('vars', item) | type_debug == 'bool'
   become: false
   loop:
     - umc_global_allow_reboot
