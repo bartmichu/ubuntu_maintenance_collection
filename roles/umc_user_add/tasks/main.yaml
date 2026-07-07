@@ -21,21 +21,21 @@
 
     - name: Validate password
       ansible.builtin.assert:
-        fail_msg: "VALIDATION FAILED: umc_user_add_password"
+        fail_msg: "VALIDATION FAILED: umc_user_add_password_hash"
         that:
-          - umc_user_add_password is defined
-          - umc_user_add_password|length > 0
+          - umc_user_add_password_hash is defined
+          - umc_user_add_password_hash|length > 0
       become: false
       no_log: true
 
     - name: Validate key path
       ansible.builtin.assert:
-        fail_msg: "VALIDATION FAILED: umc_user_add_key_path"
+        fail_msg: "VALIDATION FAILED: umc_user_add_pubkey_path"
         that:
-          - umc_user_add_key_path is defined
-          - umc_user_add_key_path|length > 0
-          - lookup('ansible.builtin.fileglob', umc_user_add_key_path)|length > 0
-          - umc_user_add_key_path is regex(".*\\.pub$")
+          - umc_user_add_pubkey_path is defined
+          - umc_user_add_pubkey_path|length > 0
+          - lookup('ansible.builtin.fileglob', umc_user_add_pubkey_path)|length > 0
+          - umc_user_add_pubkey_path is regex(".*\\.pub$")
       become: false
 
     - name: Validate trusted IP
@@ -66,7 +66,7 @@
     - name: Add dedicated user account
       ansible.builtin.user:
         name: "{{ umc_user_add_name }}"
-        password: "{{ umc_user_add_password }}"
+        password: "{{ umc_user_add_password_hash }}"
         shell: /bin/bash
       become: true
       no_log: true
@@ -74,7 +74,7 @@
     - name: Set up authorized key
       ansible.posix.authorized_key:
         exclusive: "{{ umc_user_add_key_is_exclusive }}"
-        key: "{{ lookup('ansible.builtin.file', umc_user_add_key_path) }}"
+        key: "{{ lookup('ansible.builtin.file', umc_user_add_pubkey_path) }}"
         state: present
         user: "{{ umc_user_add_name }}"
       become: true

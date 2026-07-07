@@ -14,9 +14,9 @@ This Ansible role creates or updates a local user account, installs an SSH publi
 
 - `umc_user_add_name` (string) — Username to create or manage. Cannot be "root". Default: `""` (required).
 
-- `umc_user_add_password` (string) — Encrypted password hash for the account. Default: `""` (required).
+- `umc_user_add_password_hash` (string) — Encrypted password hash for the account. Default: `""` (required).
 
-- `umc_user_add_key_path` (string) — Absolute path on the control node to the public key file (`*.pub`) to authorize for this user. Default: `""` (required).
+- `umc_user_add_pubkey_path` (string) — Absolute path on the control node to the public key file (`*.pub`) to authorize for this user. Default: `""` (required).
 
 - `umc_user_add_key_is_exclusive` (bool) — If `true`, replace the user's authorized_keys with only the provided key. If `false`, append the key if not already present. Default: `false`.
 

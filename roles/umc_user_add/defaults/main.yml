@@ -2,8 +2,8 @@ umc_user_add_allow_forwarding: false
 umc_user_add_allowed_ip: "*"
 umc_user_add_is_admin: false
 umc_user_add_key_is_exclusive: false
-umc_user_add_key_path: ""
 umc_user_add_name: ""
-umc_user_add_password: ""
+umc_user_add_password_hash: ""
 umc_user_add_passwordless_sudo: false
 umc_user_add_permit_tty: true
+umc_user_add_pubkey_path: ""
