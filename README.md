@@ -19,8 +19,10 @@ ansible-galaxy collection install bartmichu.ubuntu_maintenance
 
 This collection includes the following playbooks:
 
-* `bootstrap_ansible_user.yaml`
-  Performs automated bootstrapping of an Ansible-managed host.
+* `add_user.yaml`
+  
+  Adds and configures a local user account with SSH key and optional sudo privileges.
+  Can be run on newly provisioned servers, before they are fully integrated into your Ansible infrastructure, to bootstrap a dedicated Ansible user account. See `docs/add_user.md` for more details.
 
 * `check_state.yaml`
   Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. See `docs/check_state.md` for more details.

@@ -1,0 +1,66 @@
+- name: Ubuntu Provisioning Collection - Add user
+  gather_facts: true
+  hosts: all
+
+  vars_prompt:
+    - name: umc_user_add_name
+      default: "ubuntu"
+      private: false
+      prompt: "Account name"
+
+    - name: umc_user_add_password_hash
+      confirm: true
+      default: "{{ lookup('ansible.builtin.password', '/dev/null length=20') }}"
+      encrypt: "sha512_crypt"
+      private: true
+      prompt: "Account password"
+      unsafe: true
+
+    - name: umc_user_add_pubkey_path
+      default: ""
+      private: false
+      prompt: "Public key path (.pub)"
+
+    - name: umc_user_add_key_is_exclusive
+      default: "{{ false | string }}"
+      private: false
+      prompt: "Allow only the provided key? (true/false)"
+
+    - name: umc_user_add_is_admin
+      default: "{{ false | string }}"
+      private: false
+      prompt: "Allow administrative tasks with sudo? (true/false)"
+
+    - name: umc_user_add_passwordless_sudo
+      default: "{{ false | string }}"
+      private: false
+      prompt: "Allow paswordless sudo tasks? (true/false)"
+
+    - name: umc_user_add_permit_tty
+      default: "{{ true | string }}"
+      private: false
+      prompt: "Permit a TTY? (true/false)"
+
+    - name: umc_user_add_allow_forwarding
+      default: "{{ false | string }}"
+      private: false
+      prompt: "Allow agent and port forwarding? (true/false)"
+
+    - name: umc_user_add_allowed_ip
+      default: "*"
+      private: false
+      prompt: "Allowed IP address (or CIDR) for SSH"
+
+  tasks:
+    - name: Convert boolean variables
+      ansible.builtin.set_fact:
+        umc_user_add_allow_forwarding: "{{ umc_user_add_allow_forwarding | bool }}"
+        umc_user_add_is_admin: "{{ umc_user_add_is_admin | bool }}"
+        umc_user_add_key_is_exclusive: "{{ umc_user_add_key_is_exclusive | bool }}"
+        umc_user_add_passwordless_sudo: "{{ umc_user_add_passwordless_sudo | bool }}"
+        umc_user_add_permit_tty: "{{ umc_user_add_permit_tty | bool }}"
+      become: false
+
+    - name: Run umc_user_add role
+      ansible.builtin.include_role:
+        name: umc_user_add
