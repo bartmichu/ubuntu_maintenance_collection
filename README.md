@@ -23,28 +23,28 @@ This collection includes the following playbooks:
   Performs automated bootstrapping of an Ansible-managed host.
 
 * `check_state.yaml`
-  Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. (See `docs/check_state.md` for more details).
+  Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. See `docs/check_state.md` for more details.
 
 * `reboot_conditionally.yaml`
-  Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `umc_global_allow_reboot` variable. (See `docs/reboot_conditionally.md` for more details).
+  Performs a system reboot only when necessary (due to pending updates or service restarts requiring a reboot) and when explicitly allowed via the `umc_global_allow_reboot` variable. See `docs/reboot_conditionally.md` for more details.
 
 * `reboot_unconditionally.yaml`
-  Performs an unconditional system reboot. Use with caution! (See `docs/reboot_unconditionally.md` for more details).
+  Performs an unconditional system reboot. Use with caution! See `docs/reboot_unconditionally.md` for more details.
 
 * `services_restart.yaml`
-  Restarts services that require it, using the `needrestart` utility. Performs a check before and after attempting the restarts to identify which services were successfully restarted and which still require attention. (See `docs/services_restart.md` for more details).
+  Restarts services that require it, using the `needrestart` utility. Performs a check before and after attempting the restarts to identify which services were successfully restarted and which still require attention. See `docs/services_restart.md` for more details.
 
 * `shutdown_unconditionally.yaml`
-  Performs an unconditional system shutdown. Use with caution! (See `docs/shutdown_unconditionally.md` for more details).
+  Performs an unconditional system shutdown. Use with caution! See `docs/shutdown_unconditionally.md` for more details.
 
 * `upgrade_all_reboot.yaml`
-  Updates all upgradeable packages (including security updates) and reboots the system if necessary and allowed. (See `docs/upgrade_all.md` for more details).
+  Updates all upgradeable packages (including security updates) and reboots the system if necessary and allowed. See `docs/upgrade_all.md` for more details.
 
 * `upgrade_all.yaml`
-  Updates all upgradeable packages (including security updates). Checks for required reboots and service restarts and reports on them. (See `docs/upgrade_all.md` for more details).
+  Updates all upgradeable packages (including security updates). Checks for required reboots and service restarts and reports on them. See `docs/upgrade_all.md` for more details.
 
 * `upgrade_security.yaml`
-  Installs available security updates. Checks for required reboots and service restarts and reports on them. (See `docs/upgrade_security.md` for more details).
+  Installs available security updates. Checks for required reboots and service restarts and reports on them. See `docs/upgrade_security.md` for more details.
 
 ## Roles
 
