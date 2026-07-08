@@ -9,13 +9,9 @@ Configuration details are obtained either through user prompts or by using value
 ## Examples
 
 ```shell
-ansible-playbook --key-file ~/.ssh/keyfile --inventory "root@10.0.0.2," add_user.yaml
-
-ansible-playbook --ask-pass --inventory "root@10.0.0.1," add_user.yaml --extra-vars "@vars_ansible_user.yaml"
-
-ansible-playbook --ask-become-pass --key-file ~/.ssh/keyfile --inventory "hostname," add_user.yaml
-
-ansible-playbook --ask-pass --ask-become-pass --inventory "username@10.0.0.1," add_user.yaml
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/keyfile
+ansible-playbook --inventory "root@10.0.0.2," --ssh-common-args="-o ForwardAgent=yes -o IdentityFile=~/.ssh/keyfile" add_user.yaml --extra-vars "@vars_ansible_user.yaml"
 ```
 
 ## Requirements
