@@ -2,8 +2,8 @@ umc_user_add_allow_forwarding: false
 umc_user_add_allowed_ip: "*"
 umc_user_add_is_admin: true
 umc_user_add_key_is_exclusive: true
-umc_user_add_name: "{{ ansible_user }}"
-umc_user_add_password_hash: "{{ vault_ansible_user_password_hash }}"
+umc_user_add_name: "ansible"
+umc_user_add_password_hash: "TODO"
 umc_user_add_passwordless_sudo: false
 umc_user_add_permit_tty: false
-umc_user_add_pubkey_path: "{{ ansible_ssh_private_key_file }}"
+umc_user_add_pubkey_path: "~/.ssh/keyfile.pub"
