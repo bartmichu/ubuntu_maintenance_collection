@@ -1,4 +1,4 @@
-- name: Ubuntu Provisioning Collection - Add user
+- name: Ubuntu Maintenance Collection - Add user (interactive)
   gather_facts: true
   hosts: all
 
