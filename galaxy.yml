@@ -1,6 +1,6 @@
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 5.1.0
+version: 5.1.1
 description: A collection of Ubuntu maintenance playbooks and roles
 tags:
   [

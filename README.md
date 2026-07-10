@@ -24,6 +24,10 @@ This collection includes the following playbooks:
   Adds and configures a local user account with SSH key and optional sudo privileges.
   Can be run on newly provisioned servers, before they are fully integrated into your Ansible infrastructure, to bootstrap a dedicated Ansible user account. See `docs/add_user.md` for more details.
 
+* `add_user_key.yaml`
+
+  Installs a public key into the user's authorized_keys. It can optionally make the provided key the only authorized key (exclusive mode). See `docs/add_user_key.md` for more details.
+
 * `check_state.yaml`
   Checks the state of an Ubuntu system, including available package upgrades (security and regular), services requiring a restart, and whether a system reboot is needed. Provides a summary of the findings. See `docs/check_state.md` for more details.
 
