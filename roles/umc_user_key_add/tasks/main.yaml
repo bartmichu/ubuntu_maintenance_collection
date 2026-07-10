@@ -1,0 +1,52 @@
+- name: Retrieve information about users
+  ansible.builtin.getent:
+    database: passwd
+  become: false
+
+- name: Create a list of users
+  ansible.builtin.set_fact:
+    _umc_user_key_add_users: "{{ ansible_facts['getent_passwd'].keys() | list }}"
+
+- name: Validatation block
+  block:
+    - name: Validate account name
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: umc_user_key_add_username"
+        that:
+          - umc_user_key_add_username is defined
+          - umc_user_key_add_username|length > 0
+          - umc_user_key_add_username is match("^[a-z_][a-z0-9_-]{0,31}$")
+          - umc_user_key_add_username in _umc_user_key_add_users
+      become: false
+
+    - name: Validate key path
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: umc_user_key_add_pubkey_path"
+        that:
+          - umc_user_key_add_pubkey_path is defined
+          - umc_user_key_add_pubkey_path|length > 0
+          - lookup('ansible.builtin.fileglob', umc_user_key_add_pubkey_path)|length > 0
+          - umc_user_key_add_pubkey_path is regex(".*\\.pub$")
+      become: false
+
+    - name: Validate Boolean variables
+      ansible.builtin.assert:
+        fail_msg: "VALIDATION FAILED: '{{ item }}'"
+        that:
+          - lookup('vars', item, default=None) is not none
+          - lookup('vars', item) | type_debug == 'bool'
+      become: false
+      loop:
+        - umc_user_key_add_is_exclusive
+
+- name: SSH block
+  block:
+    - name: Set up SSH key
+      block:
+        - name: Set up authorized key
+          ansible.posix.authorized_key:
+            exclusive: "{{ umc_user_key_add_is_exclusive }}"
+            key: "{{ lookup('ansible.builtin.file', umc_user_key_add_pubkey_path) }}"
+            state: present
+            user: "{{ umc_user_key_add_username }}"
+          become: true

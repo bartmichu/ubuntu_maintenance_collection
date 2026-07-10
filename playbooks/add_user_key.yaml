@@ -1,0 +1,29 @@
+- name: Ubuntu Maintenance Collection - Add SSH authorized key (interactive)
+  gather_facts: true
+  hosts: all
+
+  vars_prompt:
+    - name: umc_user_key_add_username
+      default: ""
+      private: false
+      prompt: "Account name"
+
+    - name: umc_user_key_add_pubkey_path
+      default: ""
+      private: false
+      prompt: "Public key path (.pub)"
+
+    - name: umc_user_key_add_is_exclusive
+      default: "{{ false | string }}"
+      private: false
+      prompt: "Allow only the provided key? (true/false)"
+
+  tasks:
+    - name: Convert boolean variables
+      ansible.builtin.set_fact:
+        umc_user_key_add_is_exclusive: "{{ umc_user_key_add_is_exclusive | bool }}"
+      become: false
+
+    - name: Run umc_user_key_add role
+      ansible.builtin.include_role:
+        name: umc_user_key_add
