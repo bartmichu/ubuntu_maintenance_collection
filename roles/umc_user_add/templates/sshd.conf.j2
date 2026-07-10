@@ -5,7 +5,7 @@ Match User {{ umc_user_add_name }}
   #LogLevel VERBOSE
   AllowAgentForwarding {{ 'yes' if umc_user_add_allow_forwarding else 'no' }}
   AllowTcpForwarding {{ 'yes' if umc_user_add_allow_forwarding else 'no' }}
-  AllowUsers *@{{ umc_user_add_allowed_ip }}
+  AllowUsers {{ umc_user_add_name }}@{{ umc_user_add_allowed_ip }}
   AuthenticationMethods publickey
   GatewayPorts {{ 'clientspecified' if umc_user_add_allow_forwarding else 'no' }}
   MaxAuthTries 4
