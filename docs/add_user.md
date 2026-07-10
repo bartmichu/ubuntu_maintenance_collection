@@ -1,4 +1,4 @@
-# add_user playbook
+# add_user interactive playbook
 
 This playbook creates or updates a local user account, installs an SSH public key (controls whether other authorized keys are preserved), optionally restricts SSH access by source IP, and can grant administrative (sudo) access, including passwordless sudo.
 
