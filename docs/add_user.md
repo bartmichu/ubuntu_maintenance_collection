@@ -11,7 +11,7 @@ Configuration details are obtained either through user prompts or by using value
 ```shell
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/keyfile
-ansible-playbook --inventory "root@10.0.0.2," --ssh-common-args="-o ForwardAgent=yes -o IdentityFile=~/.ssh/keyfile" add_user.yaml --extra-vars "@vars_ansible_user.yaml"
+ansible-playbook --inventory "root@10.0.0.2," --ssh-common-args="-o ForwardAgent=yes -o IdentityFile=~/.ssh/keyfile" add_user.yml --extra-vars "@vars_ansible_user.yml"
 ```
 
 ## Requirements

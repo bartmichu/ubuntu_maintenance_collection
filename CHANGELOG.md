@@ -27,3 +27,7 @@ This changelog begins at version 3.2.0 and lists only subsequent major, breaking
 ## 6.0.0
 
 - Rename `umc_user_add_passwordless_sudo` to `umc_user_add_sudo_passwordless`.
+
+## 7.0.0
+
+- Rename `yaml` file extensions to `yml`.
