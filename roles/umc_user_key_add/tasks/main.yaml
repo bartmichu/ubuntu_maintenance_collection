@@ -14,7 +14,8 @@
         fail_msg: "VALIDATION FAILED: umc_user_key_add_username"
         that:
           - umc_user_key_add_username is defined
-          - umc_user_key_add_username|length > 0
+          - umc_user_key_add_username | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
+          - umc_user_key_add_username | length > 0
           - umc_user_key_add_username is match("^[a-z_][a-z0-9_-]{0,31}$")
           - umc_user_key_add_username in _umc_user_key_add_users
       become: false
@@ -24,7 +25,8 @@
         fail_msg: "VALIDATION FAILED: umc_user_key_add_pubkey_path"
         that:
           - umc_user_key_add_pubkey_path is defined
-          - umc_user_key_add_pubkey_path|length > 0
+          - umc_user_key_add_pubkey_path | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
+          - umc_user_key_add_pubkey_path | length > 0
           - lookup('ansible.builtin.fileglob', umc_user_key_add_pubkey_path)|length > 0
           - umc_user_key_add_pubkey_path is regex(".*\\.pub$")
       become: false

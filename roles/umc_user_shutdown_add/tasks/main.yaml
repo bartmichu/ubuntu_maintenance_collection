@@ -23,6 +23,7 @@
         fail_msg: "INVALID ACCOUNT NAME"
         that:
           - umc_user_shutdown_add_name is defined
+          - umc_user_shutdown_add_name | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_shutdown_add_name is match("^[a-z_][a-z0-9_-]{0,31}$")
           - umc_user_shutdown_add_name != "root"
       become: false
@@ -32,6 +33,7 @@
         fail_msg: "INVALID KEY PATH"
         that:
           - umc_user_shutdown_add_key_path is defined
+          - umc_user_shutdown_add_key_path | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_shutdown_add_key_path | length > 0
           - lookup('ansible.builtin.fileglob', umc_user_shutdown_add_key_path) | length > 0
           - umc_user_shutdown_add_key_path is regex(".*\\.pub$")
@@ -42,6 +44,7 @@
         fail_msg: "INVALID IP ADDRESS"
         that:
           - umc_user_shutdown_add_allowed_ip is defined
+          - umc_user_shutdown_add_allowed_ip | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_shutdown_add_allowed_ip | length > 0
       become: false
 
