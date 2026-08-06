@@ -36,6 +36,11 @@
       private: false
       prompt: "Allow paswordless sudo tasks? (true/false)"
 
+    - name: umc_user_add_sudo_root_only
+      default: "{{ true | string }}"
+      private: false
+      prompt: "Allow sudo as root only? (true/false)"
+
     - name: umc_user_add_permit_tty
       default: "{{ true | string }}"
       private: false
@@ -58,6 +63,7 @@
         umc_user_add_is_admin: "{{ umc_user_add_is_admin | bool }}"
         umc_user_add_key_is_exclusive: "{{ umc_user_add_key_is_exclusive | bool }}"
         umc_user_add_sudo_passwordless: "{{ umc_user_add_sudo_passwordless | bool }}"
+        umc_user_add_sudo_root_only: "{{ umc_user_add_sudo_root_only | bool }}"
         umc_user_add_permit_tty: "{{ umc_user_add_permit_tty | bool }}"
       become: false
 

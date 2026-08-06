@@ -59,6 +59,7 @@
         - umc_user_add_is_admin
         - umc_user_add_key_is_exclusive
         - umc_user_add_sudo_passwordless
+        - umc_user_add_sudo_root_only
         - umc_user_add_permit_tty
 
 - name: User account block

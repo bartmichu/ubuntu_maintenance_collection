@@ -5,5 +5,6 @@ umc_user_add_key_is_exclusive: true
 umc_user_add_name: "ansible"
 umc_user_add_password_hash: "TODO"
 umc_user_add_sudo_passwordless: true
+umc_user_add_sudo_root_only: false
 umc_user_add_permit_tty: false
 umc_user_add_pubkey_path: "~/.ssh/keyfile.pub"
