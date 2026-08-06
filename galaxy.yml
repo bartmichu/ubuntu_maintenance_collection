@@ -1,6 +1,6 @@
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 7.0.0
+version: 7.0.1
 description: A collection of Ubuntu maintenance playbooks and roles
 tags:
   [
@@ -26,8 +26,8 @@ homepage: https://github.com/bartmichu/ubuntu_maintenance_collection
 issues: https://github.com/bartmichu/ubuntu_maintenance_collection/issues
 readme: README.md
 dependencies:
-  "ansible.posix": ""
-  "community.general": ""
+  "ansible.posix": ">=2.0.0"
+  "community.general": ">=13.0.0"
 build_ignore: []
 license:
   - MIT-0
