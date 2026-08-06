@@ -25,7 +25,7 @@
         fail_msg: "VALIDATION FAILED: umc_user_add_password_hash"
         that:
           - umc_user_add_password_hash is defined
-          - umc_user_add_password | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
+          - umc_user_add_password_hash | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_add_password_hash | length > 0
       become: false
       no_log: true
