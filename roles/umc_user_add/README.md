@@ -22,7 +22,7 @@ This Ansible role creates or updates a local user account, installs an SSH publi
 
 - `umc_user_add_is_admin` (bool) — If `true`, allow user account to perform administrative tasks with sudo. Default: `false`.
 
-- `umc_user_add_passwordless_sudo` (bool) — If `true` and `umc_user_add_is_admin` is `true`, configure passwordless sudo for this user. Default: `false`.
+- `umc_user_add_sudo_passwordless` (bool) — If `true` and `umc_user_add_is_admin` is `true`, configure passwordless sudo for this user. Default: `false`.
 
 - `umc_user_add_allowed_ip` (string) — IP (or CIDR) from which SSH connections with the installed key are allowed. Use `"*"` to allow any source. Default: `"*"`.
 

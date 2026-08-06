@@ -31,7 +31,7 @@
       private: false
       prompt: "Allow administrative tasks with sudo? (true/false)"
 
-    - name: umc_user_add_passwordless_sudo
+    - name: umc_user_add_sudo_passwordless
       default: "{{ false | string }}"
       private: false
       prompt: "Allow paswordless sudo tasks? (true/false)"
@@ -57,7 +57,7 @@
         umc_user_add_allow_forwarding: "{{ umc_user_add_allow_forwarding | bool }}"
         umc_user_add_is_admin: "{{ umc_user_add_is_admin | bool }}"
         umc_user_add_key_is_exclusive: "{{ umc_user_add_key_is_exclusive | bool }}"
-        umc_user_add_passwordless_sudo: "{{ umc_user_add_passwordless_sudo | bool }}"
+        umc_user_add_sudo_passwordless: "{{ umc_user_add_sudo_passwordless | bool }}"
         umc_user_add_permit_tty: "{{ umc_user_add_permit_tty | bool }}"
       become: false
 

@@ -23,3 +23,7 @@ This changelog begins at version 3.2.0 and lists only subsequent major, breaking
 - Rename `umc_user_add_key_path` to `umc_user_add_pubkey_path`.
 
 - Remove the `bootstrap_ansible_user` playbook. Use the universal `add_user` playbook instead.
+
+## 6.0.0
+
+- Rename `umc_user_add_passwordless_sudo` to `umc_user_add_sudo_passwordless`.

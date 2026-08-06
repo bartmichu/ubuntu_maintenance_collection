@@ -1,17 +1,19 @@
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 5.1.1
+version: 6.0.0
 description: A collection of Ubuntu maintenance playbooks and roles
 tags:
   [
     "account",
     "apt",
     "bootstrap",
+    "key",
     "linux",
     "maintenance",
     "reboot",
     "restart",
     "security",
+    "service",
     "ssh",
     "ubuntu",
     "update",
@@ -23,7 +25,9 @@ documentation: https://github.com/bartmichu/ubuntu_maintenance_collection
 homepage: https://github.com/bartmichu/ubuntu_maintenance_collection
 issues: https://github.com/bartmichu/ubuntu_maintenance_collection/issues
 readme: README.md
-dependencies: {}
+dependencies:
+  "ansible.posix": ""
+  "community.general": ""
 build_ignore: []
 license:
   - MIT-0
