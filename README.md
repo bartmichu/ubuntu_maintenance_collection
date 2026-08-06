@@ -1,11 +1,6 @@
 # bartmichu.ubuntu_maintenance - Ubuntu Maintenance Collection
 
-This Ansible Collection provides playbooks for managing Ubuntu systems, including package upgrades, service restarts, and system reboots. These playbooks are designed to be modular and reusable, leveraging Ansible roles for specific tasks.
-
-## Requirements
-
-* Ansible Core 2.10 or later.
-* Target hosts must be Ubuntu systems.
+This Ansible Collection provides playbooks for managing Ubuntu servers.
 
 ## Installation
 
@@ -58,7 +53,7 @@ See the individual role directories for their respective `README.md` files for m
 
 ## Variables
 
-Several playbooks in this collection use variables. Please refer to the documentation for each playbook for specific variable requirements. A key variable used across many playbooks is `umc_global_allow_reboot`, which controls whether reboots are permitted, as well as `umc_global_services_require_reboot` and `umc_global_allow_services_restart`.
+Several playbooks and roles in this collection use variables, some of them are global. Please refer to the documentation for each role or playbook for specific variable requirements.
 
 ## License
 
