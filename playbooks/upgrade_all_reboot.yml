@@ -31,6 +31,7 @@
     - name: Display available package upgrades
       when: ((_umc_global_upgradeable_packages_all | default([])) | length > 0) or ((_umc_global_upgradeable_packages_security | default([])) | length > 0)
       ansible.builtin.debug:
+        verbosity: 0
         msg:
           "{% if (_umc_global_upgradeable_packages_security | length > 0) %}PENDING SECURITY UPGRADES: {{ _umc_global_upgradeable_packages_security | length }} ({{ _umc_global_upgradeable_packages_security | join(', ') }}). {% endif %}\
           {% if (_umc_global_upgradeable_packages_all | length > 0) %}PENDING UPGRADES: {{ _umc_global_upgradeable_packages_all | length }} ({{ _umc_global_upgradeable_packages_all | join(', ') }}). {% endif %}"
@@ -52,6 +53,7 @@
     - name: Display list of services that need to be restarted
       when: _umc_global_services_to_restart | length > 0
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SERVICES TO RESTART: {{ _umc_global_services_to_restart | length }} ({{ _umc_global_services_to_restart | join(', ') }})"
       become: false
 
@@ -60,6 +62,7 @@
         or ((_umc_global_services_to_restart | length) > 0)
         or (_umc_global_reboot_needed | default(false))
       ansible.builtin.debug:
+        verbosity: 0
         msg:
           "PACKAGES: {{ _umc_global_upgrade_summary | default('NONE UPGRADED.') }} \
           {% if (_umc_global_services_to_restart | length > 0) %}SERVICES TO RESTART: {{ _umc_global_services_to_restart | length }} ({{ _umc_global_services_to_restart | join(', ') }}). {% endif %}\
@@ -71,6 +74,7 @@
       when: (_umc_global_reboot_needed | default(false))
         or ((umc_global_services_require_reboot | default(false)) and ((_umc_global_services_to_restart | default([])) | length > 0))
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_global_allow_reboot == false }}"
       become: false
 
@@ -85,6 +89,7 @@
 
         - name: Confirm successful system reboot
           ansible.builtin.debug:
+            verbosity: 0
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
           become: false
           failed_when: not (_umc_global_reboot_successfull | default(false))

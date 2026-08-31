@@ -39,6 +39,7 @@
       when: (_umc_global_reboot_needed | default(false))
         or ((umc_global_services_require_reboot | default(false)) and ((_umc_global_services_to_restart | default([])) | length > 0))
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SYSTEM REBOOT IS NEEDED{{ ' BUT NOT ALLOWED' if umc_global_allow_reboot == false }}"
       become: false
 
@@ -53,6 +54,7 @@
 
         - name: Confirm successful system reboot
           ansible.builtin.debug:
+            verbosity: 0
             msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
           become: false
           failed_when: not (_umc_global_reboot_successfull | default(false))

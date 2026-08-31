@@ -10,6 +10,7 @@
 
     - name: Confirm successful system shutdown
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SYSTEM WAS SUCCESSFULLY SHUTDOWN"
       become: false
       failed_when: not (_umc_global_shutdown_successfull | default(false))

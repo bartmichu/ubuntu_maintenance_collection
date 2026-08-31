@@ -43,6 +43,7 @@
         or (_umc_global_reboot_needed)
         or (umc_global_services_require_reboot and (_umc_global_services_to_restart | length > 0))
       ansible.builtin.debug:
+        verbosity: 0
         msg: "{% if (_umc_global_upgradeable_packages_security | length > 0) %}\
           PENDING SECURITY UPGRADES: {{ _umc_global_upgradeable_packages_security | length }} ({{ _umc_global_upgradeable_packages_security | join(', ') }}). {% endif %}\
           {% if (_umc_global_upgradeable_packages_all | length > 0) %}\

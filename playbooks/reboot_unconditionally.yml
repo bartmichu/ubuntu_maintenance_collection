@@ -10,6 +10,7 @@
 
     - name: Confirm successful system reboot
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SYSTEM WAS SUCCESSFULLY REBOOTED"
       become: false
       failed_when: not (_umc_global_reboot_successfull | default(false))

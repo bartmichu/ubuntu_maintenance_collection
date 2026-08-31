@@ -31,6 +31,7 @@
     - name: List upgradeable packages
       when: ((_umc_global_upgradeable_packages_all | default([])) | length > 0) or ((_umc_global_upgradeable_packages_security | default([])) | length > 0)
       ansible.builtin.debug:
+        verbosity: 0
         msg:
           "{% if (_umc_global_upgradeable_packages_security | length > 0) %}PENDING SECURITY UPGRADES: {{ _umc_global_upgradeable_packages_security | length }} ({{ _umc_global_upgradeable_packages_security | join(', ') }}). {% endif %}\
           {% if (_umc_global_upgradeable_packages_all | length > 0) %}PENDING UPGRADES: {{ _umc_global_upgradeable_packages_all | length }} ({{ _umc_global_upgradeable_packages_all | join(', ') }}). {% endif %}"
@@ -56,6 +57,7 @@
         or ((_umc_global_services_to_restart | length) > 0)
         or (_umc_global_reboot_needed | default(false))
       ansible.builtin.debug:
+        verbosity: 0
         msg:
           "PACKAGES: {{ _umc_global_upgrade_summary | default('NONE UPGRADED.') }} \
           {% if (_umc_global_services_to_restart | length > 0) %}SERVICES TO RESTART: {{ _umc_global_services_to_restart | length }} ({{ _umc_global_services_to_restart | join(', ') }}). {% endif %}\

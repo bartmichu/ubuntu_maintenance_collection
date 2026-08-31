@@ -38,6 +38,7 @@
     - name: Display services that need to be restarted
       when: _umc_global_needrestart_first_check | length > 0
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SERVICES TO RESTART: {{ _umc_global_needrestart_first_check | length }} ({{ _umc_global_needrestart_first_check | join(', ') }})"
       become: false
 
@@ -61,12 +62,14 @@
     - name: Display services that were not restarted
       when: (_umc_global_needrestart_second_check | default([])) | length > 0
       ansible.builtin.debug:
+        verbosity: 0
         msg: "SERVICES STILL TO RESTART: {{ _umc_global_needrestart_second_check | length }} ({{ _umc_global_needrestart_second_check | join(', ') }})"
       become: false
 
     - name: Display restart summary
       when: _umc_global_needrestart_first_check | length > 0
       ansible.builtin.debug:
+        verbosity: 0
         msg:
           "RESTARTED SERVICES: {{ ((_umc_global_needrestart_first_check | length) - (_umc_global_needrestart_second_check | length)) if umc_global_allow_services_restart else 0 }}
           / {{ _umc_global_needrestart_first_check | length }}{{ ' (NOT ALLOWED)' if umc_global_allow_services_restart == false else '' }}"
