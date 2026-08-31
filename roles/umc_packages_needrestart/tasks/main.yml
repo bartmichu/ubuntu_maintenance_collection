@@ -1,3 +1,4 @@
+---
 - name: Install needrestart packages
   ansible.builtin.apt:
     force_apt_get: false

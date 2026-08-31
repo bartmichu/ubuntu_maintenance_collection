@@ -1,3 +1,4 @@
+---
 - name: Install security upgrades
   # TODO: failed_when: _umc_packages_upgrade_security_result.rc != 0
   ansible.builtin.shell:

@@ -1,3 +1,4 @@
+---
 - name: Register services which need to be restarted
   # TODO: failed_when: _umc_services_restart_check_result.rc != ???
   ansible.builtin.shell:

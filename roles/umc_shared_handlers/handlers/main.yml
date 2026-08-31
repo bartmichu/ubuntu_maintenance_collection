@@ -1,3 +1,4 @@
+---
 - name: "UMC: Restart ssh"
   ansible.builtin.systemd:
     name: "{{ 'ssh.socket' if 'ssh.socket' in ansible_facts.services else 'ssh.service' }}"

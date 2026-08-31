@@ -1,3 +1,4 @@
+---
 - name: Restart services
   ansible.builtin.command:
     cmd: /usr/sbin/needrestart -l -r a

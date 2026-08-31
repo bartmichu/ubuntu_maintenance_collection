@@ -1,3 +1,4 @@
+---
 - name: Retrieve information about users
   ansible.builtin.getent:
     database: passwd

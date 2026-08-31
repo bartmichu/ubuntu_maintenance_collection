@@ -1,3 +1,4 @@
+---
 - name: Update package repositories cache
   ansible.builtin.apt:
     force_apt_get: false

@@ -1,3 +1,4 @@
+---
 - name: Import shared handlers
   ansible.builtin.import_role:
     name: bartmichu.ubuntu_maintenance.umc_shared_handlers

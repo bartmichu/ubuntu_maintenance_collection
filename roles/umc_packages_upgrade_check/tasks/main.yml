@@ -1,3 +1,4 @@
+---
 - name: Check all upgrades # noqa: command-instead-of-module
   # TODO: failed_when: _umc_packages_upgrade_check_all_result.rc != 0
   ansible.builtin.shell:

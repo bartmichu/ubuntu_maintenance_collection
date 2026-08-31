@@ -1,3 +1,4 @@
+---
 - name: Shutdown system
   community.general.shutdown:
     delay: "{{ umc_system_shutdown_delay }}"

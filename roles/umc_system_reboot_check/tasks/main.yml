@@ -1,3 +1,4 @@
+---
 - name: Check for reboot-required flag file
   ansible.builtin.stat:
     get_checksum: false

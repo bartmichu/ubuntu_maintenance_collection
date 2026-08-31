@@ -1,3 +1,4 @@
+---
 - name: Ubuntu Maintenance Collection - Install security upgrades
   gather_facts: true
   hosts: all
