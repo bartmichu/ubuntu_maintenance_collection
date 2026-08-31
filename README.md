@@ -55,6 +55,11 @@ See the individual role directories for their respective `README.md` files for m
 
 Several playbooks and roles in this collection use variables, some of them are global. Please refer to the documentation for each role or playbook for specific variable requirements.
 
+## Requirements
+
+* Supported OS: Ubuntu 22.04 LTS, Ubuntu 24.04 LTS, Ubuntu 26.04 LTS
+* Ansible Core: 2.15.0+
+
 ## License
 
-This playbook is licensed under [MIT License](https://opensource.org/licenses/MIT).
+This collection is licensed under the [MIT License](LICENSE).
