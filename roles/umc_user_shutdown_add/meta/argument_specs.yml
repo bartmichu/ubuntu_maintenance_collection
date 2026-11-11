@@ -1,0 +1,18 @@
+---
+argument_specs:
+  main:
+    description:
+      - Creates a restricted user dedicated to system shutdown.
+    options:
+      umc_user_shutdown_add_allowed_ip:
+        type: str
+        default: "*"
+        description: Source IP address allowed to connect for shutdown execution.
+      umc_user_shutdown_add_key_path:
+        type: str
+        required: true
+        description: Path to public key file authorized to trigger shutdown.
+      umc_user_shutdown_add_name:
+        type: str
+        required: true
+        description: Username for the restricted shutdown user.

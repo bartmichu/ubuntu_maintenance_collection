@@ -1,4 +1,4 @@
 ---
+# umc_user_shutdown_add_key_path: (required, no default)
+# umc_user_shutdown_add_name: (required, no default)
 umc_user_shutdown_add_allowed_ip: "*"
-umc_user_shutdown_add_key_path: ""
-umc_user_shutdown_add_name: ""
