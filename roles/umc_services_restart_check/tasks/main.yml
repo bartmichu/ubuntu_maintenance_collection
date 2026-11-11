@@ -1,4 +1,31 @@
 ---
+- name: Package installation block
+  block:
+    - name: Gather the package facts
+      ansible.builtin.package_facts:
+        manager: apt
+      become: false
+
+    - name: Install needrestart package
+      when: "'needrestart' not in ansible_facts.packages"
+      become: true
+      ansible.builtin.apt:
+        force_apt_get: false
+        name:
+          - needrestart
+        state: present
+        update_cache: true
+
+    - name: Install libpam-systemd package
+      when: "'libpam-systemd' not in ansible_facts.packages"
+      become: true
+      ansible.builtin.apt:
+        force_apt_get: false
+        name:
+          - libpam-systemd
+        state: present
+        update_cache: true
+
 - name: Register services which need to be restarted
   # TODO: failed_when: _umc_services_restart_check_result.rc != ???
   ansible.builtin.shell:

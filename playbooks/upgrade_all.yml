@@ -10,19 +10,9 @@
       become: false
       tags: always
 
-    - name: Gather the package facts
-      ansible.builtin.package_facts:
-        manager: apt
-      become: false
-
     - name: Run umc_packages_update_cache role
       ansible.builtin.include_role:
         name: umc_packages_update_cache
-
-    - name: Run umc_packages_needrestart role
-      when: "'needrestart' not in ansible_facts.packages"
-      ansible.builtin.include_role:
-        name: umc_packages_needrestart
 
     - name: Run umc_packages_upgrade_check role
       ansible.builtin.include_role:

@@ -10,7 +10,6 @@ Define `umc_global_allow_services_restart` appropriately before running the play
 
 - This playbook relies on the following roles:
   - `umc_packages_update_cache`
-  - `umc_packages_needrestart`
   - `umc_services_restart_check`
   - `umc_services_restart`
 

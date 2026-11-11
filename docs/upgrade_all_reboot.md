@@ -10,7 +10,6 @@ Define `umc_global_allow_reboot` and `umc_global_services_require_reboot` approp
 
 - This playbook relies on the following roles:
   - `umc_packages_update_cache`
-  - `umc_packages_needrestart`
   - `umc_packages_upgrade_check`
   - `umc_packages_upgrade_all`
   - `umc_system_reboot_check`

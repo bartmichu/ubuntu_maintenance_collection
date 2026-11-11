@@ -1,6 +1,0 @@
----
-argument_specs:
-  main:
-    description:
-      - Installs needrestart utility.
-    options: {}

@@ -31,3 +31,7 @@ This changelog begins at version 3.2.0 and lists only subsequent major, breaking
 ## 7.0.0
 
 - Rename `yaml` file extensions to `yml`.
+
+## 8.0.0
+
+- Merge the needrestart installation into other roles that use it.

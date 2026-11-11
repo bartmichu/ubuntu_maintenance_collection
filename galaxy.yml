@@ -1,7 +1,7 @@
 ---
 namespace: bartmichu
 name: ubuntu_maintenance
-version: 7.0.3
+version: 8.0.0
 description: A collection of Ubuntu maintenance playbooks and roles
 tags:
   [
