@@ -1,17 +1,17 @@
 # umc_user_key_add
 
-Add an SSH public key to a user's authorized_keys on Ubuntu systems.
-
 ## Description
-This role installs a public key into the user's authorized_keys. It can optionally make the provided key the only authorized key (exclusive mode).
+
+Adds an SSH public key to user authorized_keys.
 
 ## Requirements
 
-- Ansible must be able to execute commands with `become` privileges.
 - Ansible (core) with ansible.posix collection (authorized_key).
 - Control node must have access to the public key file path provided (lookup performed on control node).
 
 ## Role variables
+
+This role uses the following input variables:
 
 - `umc_user_key_add_username` (string) — Username to manage. Default: `""` (required).
 

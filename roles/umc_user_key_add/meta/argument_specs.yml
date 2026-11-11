@@ -1,0 +1,18 @@
+---
+argument_specs:
+  main:
+    description:
+      - Adds an SSH public key to user authorized_keys.
+    options:
+      umc_user_key_add_is_exclusive:
+        type: bool
+        default: false
+        description: Whether to remove existing keys from authorized_keys.
+      umc_user_key_add_username:
+        type: str
+        required: true
+        description: Username whose authorized_keys will be updated.
+      umc_user_key_add_pubkey_path:
+        type: str
+        required: true
+        description: Local filesystem path to the SSH public key.

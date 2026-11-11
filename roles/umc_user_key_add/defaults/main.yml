@@ -1,4 +1,4 @@
 ---
+# umc_user_key_add_pubkey_path: (required, no default)
+# umc_user_key_add_username: (required, no default)
 umc_user_key_add_is_exclusive: false
-umc_user_key_add_username: ""
-umc_user_key_add_pubkey_path: ""
