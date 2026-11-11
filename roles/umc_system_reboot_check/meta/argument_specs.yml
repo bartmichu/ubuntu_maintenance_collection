@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    description:
+      - Checks if a system reboot is required.
+    options: {}

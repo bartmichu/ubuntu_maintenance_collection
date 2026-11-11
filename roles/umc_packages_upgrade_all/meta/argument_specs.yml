@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    description:
+      - Upgrades all installed packages and captures upgrade summary.
+    options: {}

@@ -1,0 +1,18 @@
+---
+argument_specs:
+  main:
+    description:
+      - Validates global variables for Ubuntu Maintenance Collection playbooks.
+    options:
+      umc_global_allow_reboot:
+        type: bool
+        default: false
+        description: Allow UMC playbooks to initiate a system reboot.
+      umc_global_allow_services_restart:
+        type: bool
+        default: false
+        description: Allow UMC playbooks to restart services.
+      umc_global_services_require_reboot:
+        type: bool
+        default: false
+        description: Treat services requiring a restart as a reboot requirement.

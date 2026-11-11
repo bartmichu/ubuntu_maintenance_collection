@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    description:
+      - Updates APT package repository cache.
+    options: {}

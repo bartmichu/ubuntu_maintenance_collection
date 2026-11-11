@@ -1,0 +1,10 @@
+---
+argument_specs:
+  main:
+    description:
+      - Reboots the target system.
+    options:
+      umc_system_reboot_delay:
+        type: int
+        default: 10
+        description: Seconds to wait post-reboot before continuing tasks.

@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    description:
+      - Shuts down the target system.
+    options:
+      umc_system_shutdown_delay:
+        type: int
+        default: 0
+        description: "Delay in minutes before shutdown begins."
+      umc_system_shutdown_message:
+        type: str
+        default: System shutting down, initiated by Ansible.
+        description: Broadcast message displayed to logged-in users before shutdown.

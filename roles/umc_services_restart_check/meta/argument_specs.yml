@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    description:
+      - Checks for services requiring restart.
+    options: {}

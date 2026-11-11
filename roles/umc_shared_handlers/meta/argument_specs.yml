@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    description:
+      - Provides shared handlers across Ubuntu Maintenance Collection.
+    options: {}

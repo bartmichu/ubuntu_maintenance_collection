@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    description:
+      - Checks for available package regular and security upgrades.
+    options: {}
