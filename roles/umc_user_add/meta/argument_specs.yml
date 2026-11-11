@@ -1,0 +1,47 @@
+---
+argument_specs:
+  main:
+    description:
+      - Adds and configures a local user account.
+    options:
+      umc_user_add_allow_forwarding:
+        type: bool
+        default: false
+        description: Allow SSH port, X11, and agent forwarding.
+      umc_user_add_allowed_ip:
+        type: str
+        default: "*"
+        description: Source IP address or CIDR permitted to connect via SSH.
+      umc_user_add_is_admin:
+        type: bool
+        default: false
+        description: Grant sudo administrative privileges.
+      umc_user_add_key_is_exclusive:
+        type: bool
+        default: false
+        description: Whether to overwrite existing authorized keys.
+      umc_user_add_name:
+        type: str
+        required: true
+        description: Username of the user to create or update.
+      umc_user_add_password_hash:
+        type: str
+        required: true
+        no_log: true
+        description: Encrypted password hash for the user.
+      umc_user_add_sudo_passwordless:
+        type: bool
+        default: false
+        description: Allow passwordless sudo execution.
+      umc_user_add_sudo_root_only:
+        type: bool
+        default: true
+        description: Restrict sudo execution to root target only.
+      umc_user_add_permit_tty:
+        type: bool
+        default: true
+        description: Allow TTY allocation for SSH sessions.
+      umc_user_add_pubkey_path:
+        type: str
+        required: true
+        description: Path to local public key file to install into authorized_keys.

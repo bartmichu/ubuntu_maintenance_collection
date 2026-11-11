@@ -1,11 +1,11 @@
 ---
+# umc_user_add_name: (required, no default)
+# umc_user_add_password_hash: (required, no default)
+# umc_user_add_pubkey_path: (required, no default)
 umc_user_add_allow_forwarding: false
 umc_user_add_allowed_ip: "*"
 umc_user_add_is_admin: false
 umc_user_add_key_is_exclusive: false
-umc_user_add_name: ""
-umc_user_add_password_hash: ""
+umc_user_add_permit_tty: true
 umc_user_add_sudo_passwordless: false
 umc_user_add_sudo_root_only: true
-umc_user_add_permit_tty: true
-umc_user_add_pubkey_path: ""

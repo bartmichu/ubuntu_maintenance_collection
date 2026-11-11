@@ -14,8 +14,6 @@
       ansible.builtin.assert:
         fail_msg: "VALIDATION FAILED: umc_user_add_name"
         that:
-          - umc_user_add_name is defined
-          - umc_user_add_name | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_add_name | length > 0
           - umc_user_add_name is match("^[a-z_][a-z0-9_-]{0,31}$")
           - umc_user_add_name | lower != "root"
@@ -25,8 +23,6 @@
       ansible.builtin.assert:
         fail_msg: "VALIDATION FAILED: umc_user_add_password_hash"
         that:
-          - umc_user_add_password_hash is defined
-          - umc_user_add_password_hash | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_add_password_hash | length > 0
       become: false
       no_log: true
@@ -35,37 +31,17 @@
       ansible.builtin.assert:
         fail_msg: "VALIDATION FAILED: umc_user_add_pubkey_path"
         that:
-          - umc_user_add_pubkey_path is defined
-          - umc_user_add_pubkey_path | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_add_pubkey_path | length > 0
           - lookup('ansible.builtin.fileglob', umc_user_add_pubkey_path)|length > 0
           - umc_user_add_pubkey_path is regex(".*\\.pub$")
       become: false
 
     - name: Validate trusted IP
-      # TODO: improve IP validation
       ansible.builtin.assert:
         fail_msg: "VALIDATION FAILED: umc_user_add_allowed_ip"
         that:
-          - umc_user_add_allowed_ip is defined
-          - umc_user_add_allowed_ip | type_debug in ['str', 'AnsibleUnicode', 'AnsibleUnsafeText']
           - umc_user_add_allowed_ip | length > 0
       become: false
-
-    - name: Validate Boolean variables
-      ansible.builtin.assert:
-        fail_msg: "VALIDATION FAILED: '{{ item }}'"
-        that:
-          - lookup('vars', item, default=None) is not none
-          - lookup('vars', item) | type_debug == 'bool'
-      become: false
-      loop:
-        - umc_user_add_allow_forwarding
-        - umc_user_add_is_admin
-        - umc_user_add_key_is_exclusive
-        - umc_user_add_sudo_passwordless
-        - umc_user_add_sudo_root_only
-        - umc_user_add_permit_tty
 
 - name: User account block
   block:

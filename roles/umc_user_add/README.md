@@ -1,16 +1,12 @@
 # umc_user_add
 
-Add and configure a local user account with SSH key and optional sudo privileges.
-
 ## Description
 
-This Ansible role creates or updates a local user account, installs an SSH public key (controls whether other authorized keys are preserved), optionally restricts SSH access by source IP, and can grant administrative (sudo) access, including passwordless sudo.
-
-## Requirements
-
-- Ansible must be able to execute commands with `become` privileges.
+Adds and configures a local user account.
 
 ## Role Variables
+
+This role uses the following input variables:
 
 - `umc_user_add_name` (string) — Username to create or manage. Cannot be "root". Default: `""` (required).
 
