@@ -1,7 +1,5 @@
 # umc_shared_handlers
 
-This Ansible role provides handlers that are shared by multiple roles in this collection.
+## Description
 
-Implemented handlers:
-
-- UMC: Restart ssh
+Provides shared handlers across Ubuntu Maintenance Collection.
